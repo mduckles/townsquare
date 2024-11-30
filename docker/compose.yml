@@ -1,12 +1,13 @@
 services:
   clocktower:
     build:
-      context: .. 
-      dockerfile: Dockerfile
+      context: .. # Where to find Dockerfile
+      dockerfile: Dockerfile # Dockerfile to build from
     ports: 
-      - 8083:8083
+      - 8083:8083 # Ports to expose
     environment: 
-      - CT_WEBSOCKET=ws.mduck.net
+      - CT_WEBSOCKET=ws.mduck.net # Where will websocket host be accessible
+    restart: unless-stopped # Restart unless container manually stopped
   websocket:
     build:
       context: ..
@@ -16,4 +17,4 @@ services:
       - NODE_ENV=nossl
     ports:
       - 8001:8001
-
+    restart: unless-stopped
