@@ -1,0 +1,19 @@
+FROM node:22
+
+# Set the working directory in the container
+WORKDIR /app
+
+ADD . /app
+
+# Install websocket server 
+
+# Make port 8080 available to the world outside this container
+EXPOSE 8001
+
+ENV NODE_ENV=development
+
+# Run websocket server when the container launches
+CMD ["node", "server/index.js"]
+
+RUN 
+
