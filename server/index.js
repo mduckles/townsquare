@@ -16,7 +16,7 @@ const PING_INTERVAL = 30000; // 30 seconds
 
 const options = {};
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV !== "nossl") {
   options.cert = fs.readFileSync(
     "/etc/letsencrypt/live/clocktower.live/fullchain.pem",
   );
@@ -25,13 +25,27 @@ if (process.env.NODE_ENV !== "development") {
   );
 }
 
+function escapeRegExp(string) {
+	  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Set regex for matching hostnames to keep WS server secure
+if ('CT_HOSTNAME' in process.env) {
+	const allowedDomain = process.env.CT_HOSTNAME ? escapeRegExp(process.env.CT_HOSTNAME) : null;
+	const regex = new RegExp(`^https?:\/\/(localhost${allowedDomain ? `|${allowedDomain}` : ''})`, 'i');
+	console.log("Using custom host match", regex);
+} else {
+	const regex = /^https?:\/\/([^.]+\.github\.io|localhost|clocktower\.live)/i ;
+	console.log("Using default host match", regex);
+}
+
 const server = https.createServer(options);
 const wss = new WebSocket.Server({
-  ...(process.env.NODE_ENV === "development" ? { port: 8001 } : { server }),
+  ...(process.env.NODE_ENV === "nossl" ? { port: 8001 } : { server }),
   verifyClient: (info) =>
     info.origin &&
     !!info.origin.match(
-      /^https?:\/\/([^.]+\.github\.io|localhost|clocktower\.live)/i,
+	regex
     ),
 });
 
@@ -304,7 +318,7 @@ wss.on("close", function close() {
 });
 
 // prod mode with stats API
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV !== "nossl") {
   console.log("server starting");
   server.listen(8001);
   server.on("request", (req, res) => {

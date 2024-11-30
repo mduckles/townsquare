@@ -1,6 +1,7 @@
+
 class LiveSession {
   constructor(store) {
-    this._wss = "wss://clocktower.live:8001/";
+    this._wss = process.env.CT_WEBSOCKET || "ws://clocktower.live:8081";
     // this._wss = "ws://localhost:8081/"; // uncomment if using local server with NODE_ENV=development
     this._socket = null;
     this._isSpectator = true;
