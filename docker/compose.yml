@@ -1,0 +1,19 @@
+services:
+  clocktower:
+    build:
+      context: .. 
+      dockerfile: Dockerfile
+    ports: 
+      - 8083:8083
+    environment: 
+      - CT_WEBSOCKET=ws.mduck.net
+  websocket:
+    build:
+      context: ..
+      dockerfile: Dockerfile-ws
+    environment:
+      - CT_HOSTNAME=clocktower.mduck.net
+      - NODE_ENV=nossl
+    ports:
+      - 8001:8001
+
