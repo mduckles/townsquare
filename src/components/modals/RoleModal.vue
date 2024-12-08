@@ -20,7 +20,7 @@
     </ul>
     <div
       class="button-group"
-      v-if="playerIndex >= 0 && otherTravelers.size && !session.isSpectator"
+      v-if="playerIndex >= 0 && otherTravellers.size && !session.isSpectator"
     >
       <span
         class="button"
@@ -30,9 +30,9 @@
       >
       <span
         class="button"
-        :class="{ townsfolk: tab === 'otherTravelers' }"
-        @click="tab = 'otherTravelers'"
-        >Other Travelers</span
+        :class="{ townsfolk: tab === 'otherTravellers' }"
+        @click="tab = 'otherTravellers'"
+        >Other Travellers</span
       >
     </div>
     <input
@@ -74,13 +74,13 @@ export default {
       return this.modals.role && this.availableRoles.length;
     },
     displayedRoles() {
-      if (this.tab === "editionRoles" || !this.otherTravelers.size)
+      if (this.tab === "editionRoles" || !this.otherTravellers.size)
         return this.availableRoles;
-      else return [...this.otherTravelers.values()];
+      else return [...this.otherTravellers.values()];
     },
     ...mapState(["modals", "roles", "session"]),
     ...mapState("players", ["players"]),
-    ...mapState(["otherTravelers"]),
+    ...mapState(["otherTravellers"]),
   },
   data() {
     return {
@@ -97,7 +97,7 @@ export default {
           role,
         });
       } else {
-        if (this.session.isSpectator && role.team === "traveler") return;
+        if (this.session.isSpectator && role.team === "traveller") return;
         // assign to player
         const player = this.$store.state.players.players[this.playerIndex];
         this.$store.commit("players/update", {
@@ -187,10 +187,10 @@ ul.tokens li {
       0 0 10px $demon,
       0 0 10px $demon;
   }
-  &.traveler {
+  &.traveller {
     box-shadow:
-      0 0 10px $traveler,
-      0 0 10px $traveler;
+      0 0 10px $traveller,
+      0 0 10px $traveller;
   }
   &:hover {
     transform: scale(1.2);
@@ -201,7 +201,7 @@ ul.tokens li {
   }
 }
 
-#townsquare.spectator ul.tokens li.traveler {
+#townsquare.spectator ul.tokens li.traveller {
   display: none;
 }
 

@@ -1,5 +1,12 @@
 # Release Notes
 
+### Version 2.19.0
+- Added Xaan
+- Updated jinx list to include reordered list, new Leviathan/Riot jinxes, and removed Alchemist/Vizier jinx
+- Updated Alchemist, Riot, and Al-Hadikhia ability texts
+- Updated Cannibal & Lycanthrope reminder tokens
+- Change "traveler" to "traveller" internally, and added continuing support for old scripts that use "traveler"
+
 ### Version 2.18.5
 - Always display pronouns when set
 
