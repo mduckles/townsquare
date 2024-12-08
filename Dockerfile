@@ -3,7 +3,7 @@ FROM node:22
 # Set the working directory in the container
 WORKDIR /app
 
-ADD dist /app
+ADD . /app
 
 # Install http-server globally
 RUN npm install -g http-server

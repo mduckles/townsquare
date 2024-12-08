@@ -4,6 +4,7 @@ const https = require("https");
 const { URL } = require("url");
 const WebSocket = require("ws");
 const client = require("prom-client");
+var regex = new RegExp();
 
 // Create a Registry which registers the metrics
 const register = new client.Registry();
@@ -29,13 +30,14 @@ function escapeRegExp(string) {
 	  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+
 // Set regex for matching hostnames to keep WS server secure
 if ('CT_HOSTNAME' in process.env) {
 	const allowedDomain = process.env.CT_HOSTNAME ? escapeRegExp(process.env.CT_HOSTNAME) : null;
-	const regex = new RegExp(`^https?:\/\/(localhost${allowedDomain ? `|${allowedDomain}` : ''})`, 'i');
+	regex = new RegExp(`^https?:\/\/(localhost${allowedDomain ? `|${allowedDomain}` : ''})`, 'i');
 	console.log("Using custom host match", regex);
 } else {
-	const regex = /^https?:\/\/([^.]+\.github\.io|localhost|clocktower\.live)/i ;
+	regex = /^https?:\/\/([^.]+\.github\.io|localhost|clocktower\.live)/i ;
 	console.log("Using default host match", regex);
 }
 
