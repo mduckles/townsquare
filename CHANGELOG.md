@@ -1,5 +1,9 @@
 # Release Notes
 
+### Version 2.19.1
+- Added Wizard
+- Fixed character setup warning overlapping with character tokens on large scripts in fullscreen mode
+
 ### Version 2.19.0
 - Added Xaan
 - Updated jinx list to include reordered list, new Leviathan/Riot jinxes, and removed Alchemist/Vizier jinx
