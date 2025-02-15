@@ -29,10 +29,10 @@
           <font-awesome-icon
             :icon="[
               'fas',
-              session.isVoteWatchingAllowed ? 'check-square' : 'square',
+              !session.isVoteWatchingAllowed ? 'check-square' : 'square',
             ]"
           />
-          Vote Watching
+          Secret Vote
         </div>
         <div class="option" @click="setTwoVotes">
           <font-awesome-icon

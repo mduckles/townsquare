@@ -13,6 +13,7 @@
         v-for="(player, index) in players"
         :key="index"
         :player="player"
+        :is-nominating="nominate === players.indexOf(player)"
         @trigger="handleTrigger(index, $event)"
         :class="{
           from: Math.max(swap, move, nominate) === index,
@@ -30,8 +31,8 @@
       :class="{ closed: !isBluffsOpen }"
     >
       <h3>
-        <span v-if="session.isSpectator">Other characters</span>
-        <span v-else>Demon bluffs</span>
+        <span v-if="session.isSpectator">Other Characters</span>
+        <span v-else>Demon Bluffs</span>
         <font-awesome-icon icon="times-circle" @click.stop="toggleBluffs" />
         <font-awesome-icon icon="plus-circle" @click.stop="toggleBluffs" />
       </h3>
@@ -238,8 +239,9 @@ export default {
     nominatePlayer(from, to) {
       if (this.session.isSpectator || this.session.lockedVote) return;
       if (to === undefined) {
+        const previousNominate = this.nominate
         this.cancel();
-        if (from !== this.nominate) {
+        if (from !== previousNominate) {
           this.nominate = from;
         }
       } else {
@@ -299,7 +301,7 @@ export default {
       pointer-events: all;
     }
     > .reminder {
-      margin-left: -25%;
+      margin-left: calc(-25% - 2.5px);
       width: 50%;
       pointer-events: all;
     }
@@ -497,7 +499,7 @@ export default {
   content: " ";
   opacity: 0;
   transition: opacity 250ms;
-  background-image: url("../assets/x.png");
+  background-image: url("../assets/x.webp");
   z-index: 2;
 }
 

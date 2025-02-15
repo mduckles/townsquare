@@ -7,7 +7,7 @@
         backgroundImage: `url(${
           edition.logo && grimoire.isImageOptIn
             ? edition.logo
-            : require('../assets/editions/' + edition.id + '.png')
+            : require('../assets/editions/' + edition.id + '.webp')
         })`,
       }"
     ></li>
@@ -109,7 +109,7 @@ export default {
   align-content: center;
   justify-content: center;
   flex-wrap: wrap;
-  background: url("../assets/demon-head.png") center center no-repeat;
+  background: url("../assets/demon-head.webp") center center no-repeat;
   background-size: auto 100%;
 
   @media (orientation: portrait) {

@@ -54,6 +54,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    alignmentIndex: {
+      type: Number,
+      default: 0
+    }
   },
   computed: {
     reminderLeaves: function () {
@@ -74,14 +78,16 @@ export default {
     getImage(role) {
       if (role.image && this.grimoire.isImageOptIn) {
         if (Array.isArray(role.image)) {
-          return role.image[0];
+          return role.image[this.alignmentIndex] || role.image[0];
         }
-
         return role.image;
       }
 
       return require('../assets/icons/' +
+        (this.alignmentIndex > 0 ? 'Alternate/' : '') +
         (role.imageAlt || role.id) +
+        (this.role.team === 'traveller' ?
+          (this.alignmentIndex === 1 ? '_g' : (this.alignmentIndex === 2 ? '_e' : '')) : '') +
         '.webp');
     },
     setRole() {
@@ -95,7 +101,7 @@ export default {
 .token {
   border-radius: 50%;
   width: 100%;
-  background: url("../assets/token.png") center center;
+  background: url("../assets/token.webp") center center;
   background-size: 100%;
   text-align: center;
   border: 3px solid black;
@@ -138,43 +144,43 @@ export default {
     pointer-events: none;
 
     &.leaf-left {
-      background-image: url("../assets/leaf-left.png");
+      background-image: url("../assets/leaf-left.webp");
     }
 
     &.leaf-orange {
-      background-image: url("../assets/leaf-orange.png");
+      background-image: url("../assets/leaf-orange.webp");
     }
 
     &.leaf-right {
-      background-image: url("../assets/leaf-right.png");
+      background-image: url("../assets/leaf-right.webp");
     }
 
     &.leaf-top1 {
-      background-image: url("../assets/leaf-top1.png");
+      background-image: url("../assets/leaf-top1.webp");
     }
 
     &.leaf-top2 {
-      background-image: url("../assets/leaf-top2.png");
+      background-image: url("../assets/leaf-top2.webp");
     }
 
     &.leaf-top3 {
-      background-image: url("../assets/leaf-top3.png");
+      background-image: url("../assets/leaf-top3.webp");
     }
 
     &.leaf-top4 {
-      background-image: url("../assets/leaf-top4.png");
+      background-image: url("../assets/leaf-top4.webp");
     }
 
     &.leaf-top5 {
-      background-image: url("../assets/leaf-top5.png");
+      background-image: url("../assets/leaf-top5.webp");
     }
 
     &.leaf-top6 {
-      background-image: url("../assets/leaf-top6.png");
+      background-image: url("../assets/leaf-top6.webp");
     }
 
     &.leaf-top7 {
-      background-image: url("../assets/leaf-top7.png");
+      background-image: url("../assets/leaf-top7.webp");
     }
   }
 

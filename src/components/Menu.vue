@@ -37,11 +37,6 @@
             v-if="!session.isSpectator"
             @click="tab = 'players'"
           />
-          <font-awesome-icon
-            icon="tools"
-            v-if="!session.isSpectator"
-            @click="tab = 'settings'"
-          />
           <font-awesome-icon icon="theater-masks" @click="tab = 'characters'" />
           <font-awesome-icon icon="question" @click="tab = 'help'" />
         </li>
@@ -60,7 +55,7 @@
             <em>[S]</em>
           </li>
           <li @click="toggleNightOrder" v-if="players.length">
-            Night order
+            Night Order
             <em>
               <font-awesome-icon
                 :icon="[
@@ -85,7 +80,7 @@
             </em>
           </li>
           <li @click="setBackground">
-            Background image
+            Background Image
             <em><font-awesome-icon icon="image" /></em>
           </li>
           <li v-if="!edition.isOfficial" @click="imageOptIn">
@@ -126,11 +121,11 @@
           </template>
           <template v-else>
             <li v-if="session.ping">
-              Delay to {{ session.isSpectator ? "host" : "players" }}
+              Delay to {{ session.isSpectator ? "Host" : "Players" }}
               <em>{{ session.ping }}ms</em>
             </li>
             <li @click="copySessionUrl">
-              Copy player link
+              Copy Player Link
               <em><font-awesome-icon icon="copy" /></em>
             </li>
             <li v-if="!session.isSpectator" @click="distributeRoles">
@@ -141,7 +136,46 @@
               v-if="session.voteHistory.length || !session.isSpectator"
               @click="toggleModal('voteHistory')"
             >
-              Vote history<em>[V]</em>
+              Vote History<em>[V]</em>
+            </li>
+            <li
+              v-if="!session.isSpectator"
+              @click="toggleSelfNaming"
+            >
+              Allow Self-Naming
+              <em
+              ><font-awesome-icon
+                :icon="[
+                  'fas',
+                  session.allowSelfNaming ? 'check-square' : 'square',
+                ]"
+              /></em>
+            </li>
+            <li
+              v-if="!session.isSpectator"
+              @click="setVoteWatching"
+            >
+              Secret Vote
+              <em
+              ><font-awesome-icon
+                :icon="[
+                  'fas',
+                  !session.isVoteWatchingAllowed ? 'check-square' : 'square',
+                ]"
+              /></em>
+            </li>
+            <li
+              v-if="!session.isSpectator"
+              @click="setTwoVotes"
+            >
+              Voting Twice
+              <em
+              ><font-awesome-icon
+                :icon="[
+                  'fas',
+                  session.isTwoVotesEnabled ? 'check-square' : 'square',
+                ]"
+              /></em>
             </li>
             <li @click="leaveSession">
               Leave Session
@@ -159,7 +193,7 @@
             <em><font-awesome-icon icon="dice" /></em>
           </li>
           <li @click="clearPlayers" v-if="players.length">
-            Remove all
+            Remove All
             <em><font-awesome-icon icon="trash-alt" /></em>
           </li>
         </template>
@@ -183,7 +217,7 @@
             <em><font-awesome-icon icon="dragon" /></em>
           </li>
           <li @click="clearRoles" v-if="players.length">
-            Remove all
+            Remove All
             <em><font-awesome-icon icon="trash-alt" /></em>
           </li>
         </template>
@@ -218,7 +252,7 @@
               href="https://github.com/nicholas-eden/townsquare"
               target="_blank"
             >
-              Source code
+              Source Code
             </a>
             <em>
               <a
@@ -228,41 +262,6 @@
                 <font-awesome-icon :icon="['fab', 'github']" />
               </a>
             </em>
-          </li>
-        </template>
-
-        <template v-if="tab === 'settings'">
-          <!-- Game Settings -->
-          <li class="headline">Settings</li>
-          <li @click="toggleSelfNaming">
-            Self Naming
-            <em
-              ><font-awesome-icon
-                :icon="[
-                  'fas',
-                  session.allowSelfNaming ? 'check-square' : 'square',
-                ]"
-            /></em>
-          </li>
-          <li class="option" @click="setTwoVotes">
-            Voting Twice
-            <em
-              ><font-awesome-icon
-                :icon="[
-                  'fas',
-                  session.isTwoVotesEnabled ? 'check-square' : 'square',
-                ]"
-            /></em>
-          </li>
-          <li class="option" @click="setVoteWatching">
-            Vote Watching
-            <em
-              ><font-awesome-icon
-                :icon="[
-                  'fas',
-                  session.isVoteWatchingAllowed ? 'check-square' : 'square',
-                ]"
-            /></em>
           </li>
         </template>
       </ul>
@@ -386,25 +385,41 @@ export default {
       }
     },
     toggleSelfNaming() {
+      if (this.session.isSpectator) return;
       this.$store.commit(
         "session/setAllowSelfNaming",
         !this.session.allowSelfNaming,
       );
     },
     setTwoVotes() {
+      if (this.session.isSpectator) return;
       this.$store.commit(
         "session/setTwoVotesEnabled",
         !this.session.isTwoVotesEnabled,
       );
+
+      if (!this.session.isTwoVotesEnabled) {
+        // Disable two votes for all players
+        this.players.forEach((player) => {
+          if (player.hasTwoVotes) {
+            this.$store.commit("players/update", {
+              player: player,
+              property: "hasTwoVotes",
+              value: false
+            });
+          }
+        });
+      }
     },
     setVoteWatching() {
+      if (this.session.isSpectator) return;
       this.$store.commit(
         "session/setVoteWatchingAllowed",
         !this.session.isVoteWatchingAllowed,
       );
 
       if (!this.session.isVoteWatchingAllowed) {
-        // Disable vote history if votes are hidden.
+        // Disable vote history if votes are hidden
         this.$store.commit("session/setVoteHistoryAllowed", false);
       }
     },

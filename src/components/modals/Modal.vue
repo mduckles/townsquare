@@ -133,6 +133,10 @@ export default {
     position: initial;
 
     @media (orientation: portrait) {
+      ul.heading {
+        grid-template-columns: min-content 1fr;
+        justify-items: left;
+      }
       h3 {
         text-align: left;
         text-wrap: wrap;

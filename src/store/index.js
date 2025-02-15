@@ -185,6 +185,7 @@ export default new Vuex.Store({
     },
     getFirstNightOrder: () => (id) => getFirstNightOrder(id),
     getOtherNightOrder: () => (id) => getOtherNightOrder(id),
+    clean: () => (id) => clean(id),
     rolesJSONbyId: () => rolesJSONbyId,
   },
   mutations: {
@@ -294,14 +295,19 @@ export default new Vuex.Store({
           if (rolesJSONbyId.get(role.id)) return role;
           role.imageAlt = // map team to generic icon
             {
-              townsfolk: "good",
+              townsfolk: "townsfolk",
               outsider: "outsider",
               minion: "minion",
-              demon: "evil",
+              demon: "demon",
               fabled: "fabled",
             }[role.team] || "custom";
           role.firstNight = Math.abs(role.firstNight);
           role.otherNight = Math.abs(role.otherNight);
+          if (role.jinxes) {
+            role.jinxes = new Map(
+              role.jinxes.map(({ id, reason }) => [clean(id), reason]),
+            );
+          }
           return role;
         })
         // filter out roles that don't match an existing role and also don't have name/ability/team

@@ -307,7 +307,7 @@ export default {
   align-items: center;
   align-content: center;
   justify-content: center;
-  background: url("../assets/demon-head.png") center center no-repeat;
+  background: url("../assets/demon-head.webp") center center no-repeat;
   background-size: auto 75%;
   text-align: center;
   text-shadow:
@@ -392,11 +392,11 @@ export default {
     filter: drop-shadow(0px 0px 3px #000);
   }
   .nominator:before {
-    background-image: url("../assets/clock-small.png");
+    background-image: url("../assets/clock-small.webp");
     animation: arrow-ccw 1s ease-out;
   }
   .nominee:before {
-    background-image: url("../assets/clock-big.png");
+    background-image: url("../assets/clock-big.webp");
     animation: arrow-cw 1s ease-out;
   }
 }

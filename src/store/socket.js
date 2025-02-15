@@ -526,7 +526,8 @@ class LiveSession {
     if (
       this._isSpectator ||
       property === "reminders" ||
-      property === "hasResponded"
+      property === "hasResponded" ||
+      property === "alignmentIndex"
     )
       return;
     const index = this._store.state.players.players.indexOf(player);

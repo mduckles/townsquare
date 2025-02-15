@@ -28,7 +28,6 @@
     </transition>
     <TownSquare></TownSquare>
     <Menu ref="menu"></Menu>
-    <!-- <CommsModal /> -->
     <EditionModal />
     <FabledModal />
     <RolesModal />
@@ -168,7 +167,7 @@ html,
 body {
   font-size: 1.2em;
   line-height: 1.4;
-  background: url("assets/background.jpg") center center;
+  background: url("assets/background.webp") center center;
   background-size: cover;
   color: white;
   height: 100%;
@@ -185,6 +184,7 @@ body {
 * {
   box-sizing: border-box;
   position: relative;
+  user-select: none;
 }
 
 a {
@@ -368,7 +368,7 @@ video#background {
     width: 100%;
     padding-right: 2000px;
     height: 100%;
-    background: url("assets/clouds.png") repeat;
+    background: url("assets/clouds.webp") repeat;
     background-size: 2000px auto;
     animation: move-background 120s linear infinite;
     opacity: 0.3;

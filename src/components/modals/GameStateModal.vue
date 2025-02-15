@@ -115,6 +115,7 @@ export default {
 @import "../../vars.scss";
 
 h3 {
+  text-align: center;
   margin: 0 40px;
 }
 

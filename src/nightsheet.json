@@ -13,11 +13,11 @@
     "poppygrower",
     "yaggababble",
     "magician",
-    "minion",
+    "minioninfo",
     "snitch",
     "lunatic",
     "summoner",
-    "demon",
+    "demoninfo",
     "king",
     "sailor",
     "marionette",
@@ -166,7 +166,6 @@
     "general",
     "chambermaid",
     "mathematician",
-    "riot",
     "dawn",
     "leviathan"
   ]

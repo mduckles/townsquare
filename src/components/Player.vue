@@ -25,6 +25,7 @@
           'vote-lock': voteLocked,
         },
         player.role.team,
+        'alignment-' + player.alignmentIndex
       ]"
     >
       <div class="shroud" @click="toggleStatus()"></div>
@@ -51,6 +52,7 @@
 
       <Token
         :role="player.role"
+        :alignmentIndex="player.alignmentIndex"
         @set-role="$emit('trigger', ['openRoleModal'])"
       />
 
@@ -145,6 +147,13 @@
       <transition name="fold">
         <ul class="menu" v-if="isMenuOpen">
           <li
+            @click="changeAlignment"
+            v-if="player.role.id"
+          >
+            <font-awesome-icon icon="yin-yang" />
+            Change Alignment
+          </li>
+          <li
             @click="changePronouns"
             v-if="
               !session.isSpectator ||
@@ -165,13 +174,20 @@
             Rename
           </li>
           <template v-if="!session.isSpectator">
+            <li
+              @click="updatePlayer('hasTwoVotes', !player.hasTwoVotes, true)"
+              v-if="session.isTwoVotesEnabled"
+            >
+              <font-awesome-icon icon="sign-language" class="two-votes-icon" />
+              Has Two Votes
+            </li>
             <li @click="movePlayer()" :class="{ disabled: session.lockedVote }">
               <font-awesome-icon icon="redo-alt" />
-              Move player
+              Move Player
             </li>
             <li @click="swapPlayer()" :class="{ disabled: session.lockedVote }">
               <font-awesome-icon icon="exchange-alt" />
-              Swap seats
+              Swap Seats
             </li>
             <li @click="removePlayer" :class="{ disabled: session.lockedVote }">
               <font-awesome-icon icon="times-circle" />
@@ -182,19 +198,12 @@
               v-if="player.id && session.sessionId"
             >
               <font-awesome-icon icon="chair" />
-              Empty seat
-            </li>
-            <li
-              @click="updatePlayer('hasTwoVotes', !player.hasTwoVotes, true)"
-              v-if="session.isTwoVotesEnabled"
-            >
-              <font-awesome-icon icon="sign-language" class="two-votes-menu" />
-              Has Two Votes
+              Empty Seat
             </li>
             <template v-if="!session.nomination">
               <li @click="nominatePlayer()">
                 <font-awesome-icon icon="hand-point-right" />
-                Nomination
+                {{isNominating ? "Cancel Nomination" : "Nomination"}}
               </li>
             </template>
           </template>
@@ -206,9 +215,9 @@
             <font-awesome-icon icon="chair" />
             <template v-if="!player.id || (player.id === session.playerId && !player.connected)"> Claim seat</template>
             <template v-else-if="player.id === session.playerId">
-              Vacate seat
+              Vacate Seat
             </template>
-            <template v-else> Seat occupied</template>
+            <template v-else> Seat Occupied</template>
           </li>
         </ul>
       </transition>
@@ -258,6 +267,9 @@ export default {
     player: {
       type: Object,
       required: true
+    },
+    isNominating: {
+      type: Boolean,
     }
   },
   computed: {
@@ -295,6 +307,11 @@ export default {
     };
   },
   methods: {
+    changeAlignment() {
+      let newAlignment = this.player.alignmentIndex + 1;
+      if ((this.player.role.team !== "traveller" && newAlignment > 1) || newAlignment > 2) newAlignment = 0;
+      this.updatePlayer("alignmentIndex", newAlignment);
+    },
     changePronouns() {
       if (this.session.isSpectator && this.player.id !== this.session.playerId)
         return;
@@ -343,7 +360,8 @@ export default {
         this.session.isSpectator &&
         property !== "reminders" &&
         property !== "pronouns" &&
-        property !== "name"
+        property !== "name" &&
+        property !== "alignmentIndex"
       )
         return;
       this.$store.commit("players/update", {
@@ -456,7 +474,7 @@ export default {
 
     &:before {
       content: " ";
-      background: url("../assets/shroud.png") center -10px no-repeat;
+      background: url("../assets/shroud.webp") center -10px no-repeat;
       background-size: auto 110%;
       position: absolute;
       margin-left: -50%;
@@ -500,7 +518,7 @@ export default {
   .life {
     border-radius: 50%;
     width: 100%;
-    background: url("../assets/life.png") center center;
+    background: url("../assets/life.webp") center center;
     background-size: 100%;
     border: 3px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -525,7 +543,7 @@ export default {
     }
 
     .life {
-      background-image: url("../assets/death.png");
+      background-image: url("../assets/death.webp");
 
       &:after {
         content: " ";
@@ -533,7 +551,7 @@ export default {
         left: 0;
         top: 0;
         width: 100%;
-        background: url("../assets/vote.png") center center no-repeat;
+        background: url("../assets/vote.webp") center center no-repeat;
         background-size: 50%;
         height: 100%;
         pointer-events: none;
@@ -719,33 +737,45 @@ li.move:not(.from) .player .overlay svg.move {
 }
 
 /****** Session seat glow *****/
-@mixin glow($name, $color) {
+@mixin glowAnimation($name, $color) {
   @keyframes #{$name}-glow {
-                       0% {
-                         box-shadow: 0 0 rgba($color, 1);
-                         border-color: $color;
-                       }
+     0% {
+       box-shadow: 0 0 rgba($color, 1);
+       border-color: $color;
+     }
 
-                       50% {
-                         border-color: black;
-                       }
+     50% {
+       border-color: black;
+     }
 
-                       100% {
-                         box-shadow: 0 0 20px 16px transparent;
-                         border-color: $color;
-                       }
-                     }
+     100% {
+       box-shadow: 0 0 20px 16px transparent;
+       border-color: $color;
+     }
+   }
+}
 
-  .player.you.#{$name} .token {
-    animation: #{$name} -glow 5s ease-in-out infinite;
+@include glowAnimation("good", $townsfolk);
+@include glowAnimation("evil", $demon);
+@include glowAnimation("traveller", $traveller);
+
+@mixin glow($team, $alignment, $name) {
+  .player.you.#{$team}.alignment-#{$alignment} .token {
+    animation: #{$name}-glow 5s ease-in-out infinite;
   }
 }
 
-@include glow("townsfolk", $townsfolk);
-@include glow("outsider", $outsider);
-@include glow("demon", $demon);
-@include glow("minion", $minion);
-@include glow("traveller", $traveller);
+@include glow("townsfolk", "0", "good");
+@include glow("townsfolk", "1", "evil");
+@include glow("outsider", "0", "good");
+@include glow("outsider", "1", "evil");
+@include glow("minion", "0", "evil");
+@include glow("minion", "1", "good");
+@include glow("demon", "0", "evil");
+@include glow("demon", "1", "good");
+@include glow("traveller", "0", "traveller");
+@include glow("traveller", "1", "traveller");
+@include glow("traveller", "2", "traveller");
 
 .player.you .token {
   animation: townsfolk-glow 5s ease-in-out infinite;
@@ -874,6 +904,7 @@ li.move:not(.from) .player .overlay svg.move {
   left: 110%;
   bottom: -5px;
   text-align: left;
+  font-size: 90%;
   white-space: nowrap;
   background: rgba(0, 0, 0, 0.5);
   padding: 2px 5px;
@@ -912,7 +943,7 @@ li.move:not(.from) .player .overlay svg.move {
     margin-right: 2px;
   }
 
-  .two-votes-menu {
+  .two-votes-icon {
     transform: rotate(60deg);
   }
 }
@@ -939,7 +970,7 @@ li.move:not(.from) .player .overlay svg.move {
 
 /***** Reminder token *****/
 .circle .reminder {
-  background: url("../assets/reminder.png") center center;
+  background: url("../assets/reminder.webp") center center;
   background-size: 100%;
   width: 50%;
   height: 0;
@@ -982,12 +1013,12 @@ li.move:not(.from) .player .overlay svg.move {
     background-size: 100%;
     background-position: center 0;
     background-repeat: no-repeat;
-    background-image: url("../assets/plus.png");
+    background-image: url("../assets/plus.webp");
     transition: opacity 200ms;
   }
 
   &:after {
-    background-image: url("../assets/x.png");
+    background-image: url("../assets/x.webp");
     opacity: 0;
     top: 5%;
   }
@@ -1037,7 +1068,7 @@ li.move:not(.from) .player .overlay svg.move {
   width: calc(50% + 8px);
   padding-top: calc(50% + 38px);
   margin-top: calc(-25% - 33px);
-  margin-left: calc(-25% - 1px);
+  margin-left: calc(-25% - 3.5px);
   border-radius: 0 0 999px 999px;
   pointer-events: auto;
   transform: none !important;

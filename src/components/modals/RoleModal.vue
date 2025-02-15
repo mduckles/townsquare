@@ -1,21 +1,39 @@
 <template>
-  <Modal class="role" v-if="isDisplayed" @close="close">
-    <h3>
-      Choose a new character for
-      {{
-        playerIndex >= 0 && players.length
-          ? players[playerIndex].name
-          : "bluffing"
-      }}
-    </h3>
+  <Modal class="role" v-if="isDisplayed" @close="toggleModal('role')">
+    <ul class="heading">
+      <li>
+        <div class="button-group alignment">
+          <span
+            v-if="playerIndex >= 0 && players.length"
+            class="button alignment"
+            :class="{
+              townsfolk: alignment === 'Good',
+              demon: alignment === 'Evil'
+            }"
+            @click="toggleAlignment"
+          >{{alignment}}</span
+          >
+        </div>
+      </li>
+      <li>
+        <h3>
+          Choose a new character for
+          {{
+            playerIndex >= 0 && players.length
+              ? players[playerIndex].name
+              : "bluffing"
+          }}:
+        </h3>
+      </li>
+    </ul>
     <ul class="tokens">
       <li
         v-for="role in displayedRoles"
         :class="[role.team, { match: queryMatches(role.name) }]"
         :key="role.id"
-        @click="setRole(role)"
+        @click="setRole(role, getAlignmentIndex(role))"
       >
-        <Token :role="role" />
+        <Token :role="role" :alignment-index="getAlignmentIndex(role)"/>
       </li>
     </ul>
     <div
@@ -85,11 +103,12 @@ export default {
   data() {
     return {
       tab: "editionRoles",
+      alignment: "Regular",
       query: "",
     };
   },
   methods: {
-    setRole(role) {
+    setRole(role, alignmentIndex) {
       if (this.playerIndex < 0) {
         // assign to bluff slot (index < 0)
         this.$store.commit("players/setBluff", {
@@ -105,17 +124,26 @@ export default {
           property: "role",
           value: role,
         });
+        this.$store.commit("players/update", {
+          player,
+          property: "alignmentIndex",
+          value: alignmentIndex,
+        });
       }
-      this.reset();
       this.$store.commit("toggleModal", "role");
     },
-    close() {
-      this.reset();
-      this.toggleModal("role");
+    toggleAlignment() {
+      if (this.alignment === "Regular") this.alignment = "Good";
+      else if (this.alignment === "Good") this.alignment = "Evil";
+      else this.alignment = "Regular";
     },
-    reset() {
-      this.tab = "editionRoles";
-      this.query = "";
+    getAlignmentIndex(role) {
+      if (this.alignment === "Evil") {
+        if (role.team === "traveller") return 2;
+        else if (role.team !== "minion" && role.team !== "demon") return 1;
+      }
+      if (this.alignment === "Good" && (role.team === "traveller" || role.team === "minion" || role.team === "demon")) return 1;
+      return 0;
     },
     queryMatches(name) {
       // A search query matches if, after removing all non-word characters,
@@ -126,6 +154,7 @@ export default {
     keyup(event) {
       // Allow Escape for modal dialog dismissal.
       if (event.key === "Esc" || event.key === "Escape") return;
+      if (event.key === "Control") this.toggleAlignment();
 
       event.stopPropagation();
 
@@ -135,7 +164,8 @@ export default {
           this.queryMatches(r.name),
         );
         if (matchingRoles.length === 1) {
-          this.setRole(matchingRoles[0]);
+          const role = matchingRoles[0]
+          this.setRole(role, this.getAlignmentIndex(role));
         }
       }
     },
@@ -143,7 +173,12 @@ export default {
   },
   watch: {
     isDisplayed(shown) {
-      if (shown) this.$nextTick(() => this.$refs.searchInput.focus());
+      if (shown) {
+        this.tab = "editionRoles";
+        this.alignment = "Regular";
+        this.query = "";
+        this.$nextTick(() => this.$refs.searchInput.focus());
+      }
     },
   },
 };
@@ -152,10 +187,20 @@ export default {
 <style scoped lang="scss">
 @import "../../vars.scss";
  
-  .modal{
-    overflow-y: auto;
-    overflow-x: hidden;
+.modal {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+ul.heading {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 1fr auto 1fr;
+  grid-column-gap: 5px;
+  li:nth-child(1) {
+    margin-right: auto;
   }
+}
   
 ul.tokens li {
   border-radius: 50%;

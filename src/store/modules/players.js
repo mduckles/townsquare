@@ -3,6 +3,7 @@ const NEWPLAYER = {
   id: "",
   connected: false,
   role: {},
+  alignmentIndex: 0,
   reminders: [],
   isVoteless: false,
   hasTwoVotes: false,
@@ -14,7 +15,7 @@ const NEWPLAYER = {
 const state = () => ({
   players: [],
   fabled: [],
-  bluffs: [],
+  bluffs: [{}, {}, {}],
 });
 
 const getters = {
@@ -28,36 +29,58 @@ const getters = {
     return Math.min(nonTravellers.length, 15);
   },
   // calculate a Map of player => night order
-  nightOrder({ players, fabled }) {
-    const firstNight = [0];
-    const otherNight = [0];
+  nightOrder({ players, fabled }, getters, rootState) {
+    const firstNight = [];
+    const otherNight = [];
     players.forEach(({ role }) => {
-      if (role.firstNight && !firstNight.includes(role.firstNight)) {
-        firstNight.push(role.firstNight);
+      role.firstNightInEdition = rootState.edition.firstNight
+        ? rootState.otherTravellers.has(role.id)
+          ? role.firstNight
+            ? rootState.edition.firstNight.indexOf("dusk") + 1.2
+            : 0
+          : rootState.edition.firstNight.indexOf(role.id) + 1
+        : role.firstNight;
+      role.otherNightInEdition = rootState.edition.otherNight
+        ? rootState.otherTravellers.has(role.id)
+          ? role.otherNight
+            ? rootState.edition.otherNight.indexOf("dusk") + 1.2
+            : 0
+          : rootState.edition.otherNight.indexOf(role.id) + 1
+        : role.otherNight;
+      if (role.firstNightInEdition && !firstNight.includes(role)) {
+        firstNight.push(role);
       }
-      if (role.otherNight && !otherNight.includes(role.otherNight)) {
-        otherNight.push(role.otherNight);
+      if (role.otherNightInEdition && !otherNight.includes(role)) {
+        otherNight.push(role);
       }
     });
     fabled.forEach((role) => {
-      if (role.firstNight && !firstNight.includes(role.firstNight)) {
-        firstNight.push(role.firstNight);
+      role.firstNightInEdition =
+        rootState.edition.firstNight && role.firstNight
+          ? rootState.edition.firstNight.indexOf("dusk") + 1.1
+          : role.firstNight;
+      role.otherNightInEdition =
+        rootState.edition.otherNight && role.otherNight
+          ? rootState.edition.otherNight.indexOf("dusk") + 1.1
+          : role.otherNight;
+      if (role.firstNightInEdition && !firstNight.includes(role)) {
+        firstNight.push(role);
       }
-      if (role.otherNight && !otherNight.includes(role.otherNight)) {
-        otherNight.push(role.otherNight);
+      if (role.otherNightInEdition && !otherNight.includes(role)) {
+        otherNight.push(role);
       }
     });
-    firstNight.sort((a, b) => a - b);
-    otherNight.sort((a, b) => a - b);
+    firstNight.sort((a, b) => a.firstNightInEdition - b.firstNightInEdition);
+    otherNight.sort((a, b) => a.otherNightInEdition - b.otherNightInEdition);
     const nightOrder = new Map();
     players.forEach((player) => {
-      const first = Math.max(firstNight.indexOf(player.role.firstNight), 0);
-      const other = Math.max(otherNight.indexOf(player.role.otherNight), 0);
+      const first = firstNight.indexOf(player.role) + 1;
+      const other = otherNight.indexOf(player.role) + 1;
       nightOrder.set(player, { first, other });
     });
     fabled.forEach((role) => {
-      const first = Math.max(firstNight.indexOf(role.firstNight), 0);
-      const other = Math.max(otherNight.indexOf(role.otherNight), 0);
+      const first = firstNight.indexOf(role) + 1;
+      const other = otherNight.indexOf(role) + 1;
       nightOrder.set(role, { first, other });
     });
     return nightOrder;
@@ -78,6 +101,7 @@ const actions = {
       players = state.players.map((player) => {
         if (player.role.team !== "traveller") {
           player.role = {};
+          player.alignmentIndex = 0;
         }
         player.reminders = [];
         return player;
@@ -99,7 +123,7 @@ const actions = {
 const mutations = {
   clear(state) {
     state.players = [];
-    state.bluffs = [];
+    state.bluffs = [{}, {}, {}];
     state.fabled = [];
   },
   set(state, players = []) {
@@ -117,6 +141,7 @@ const mutations = {
     const index = state.players.indexOf(player);
     if (index >= 0) {
       state.players[index][property] = value;
+      if (property === "role" && value) state.players[index].alignmentIndex = 0;
     }
   },
   add(state, name) {
@@ -143,7 +168,7 @@ const mutations = {
     if (index !== undefined) {
       state.bluffs.splice(index, 1, role);
     } else {
-      state.bluffs = [];
+      state.bluffs = [{}, {}, {}];
     }
   },
   setFabled(state, { index, fabled } = {}) {

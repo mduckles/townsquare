@@ -1,5 +1,42 @@
 # Release Notes
 
+### Version 2.20.2
+- Corrected Fool & Bishop ability texts to match the official app and physical game
+- Added missing "About To Die" reminder for the Organ Grinder
+
+### Version 2.20.1
+- Reverted change to hide name and author of script if a custom logo is being used
+- Renamed remaining options that were still labelled "vote watching"
+
+### Version 2.20.0
+- Added opposing alignment functionality for both official and homebrew characters (with explicit permission from TPI)
+- Added menu option for changing a players' alignment - this functionality is only client side and will never be shown to players, even for travellers
+- Reduced player menu font size slightly to accommodate more options
+- Added button in the player role modal to choose from regular, good, or evil aligned characters - this button can be toggled with the control key from the search bar
+- Changed token glow to be based on alignment instead of character type
+- Disabled ability to select all in-app text (except for the game state JSON)
+- Fixed role modal not resetting when exited using escape key
+- Moved self-naming, voting twice, and vote watching functionality from settings tab to hosting tab to simplify the menu
+- Fixed voting twice to automatically disable all players' abilities to vote twice when the global option is disabled
+- Renamed "vote watching" to "secret vote" to make its purpose more clear
+- Added ability to cancel nomination before launching it by re-opening the player menu
+- Fixed bluffs sometimes assigning to the wrong token
+- Converted all app images to WEBP format
+- Removed unused edition character type icons
+- Changed behaviour of name and author of script to hide if a custom logo is being used
+- Added search bar to reminder modal
+- Fixed reminder tokens being slightly off-center
+- Fixed fabled with duplicate reminders showing multiple copies in the reminder modal
+- Removed Laissez un Faire from edition JSON, as it isn't an official script
+- Replaced popular custom scripts list with more relevant scripts (includes LuF), and added a mention to botcscripts.com
+- Removed dot-points from minion info and demon info descriptions
+- Added JSON-driven night order support following the official [JSON Schema](https://github.com/ThePandemoniumInstitute/botc-release/blob/main/script-schema.json), including curated night order for base-3 scripts (if this is used, fabled and off-script travellers that act at night will always act after dusk)
+- Fixed off-script travellers not appearing in night order modal
+- Added custom jinx support for homebrew characters, once again following the official [JSON Schema](https://github.com/ThePandemoniumInstitute/botc-release/blob/main/script-schema.json)
+- Updated Organ Grinder and Vizier ability texts
+- Corrected Widow and Lil' Monsta ability texts to match the official app and upcoming physical tokens
+- Removed Riot from night order, as it was not added in any official tools
+
 ### Version 2.19.1
 - Added Wizard
 - Fixed character setup warning overlapping with character tokens on large scripts in fullscreen mode
@@ -19,7 +56,7 @@
 - Update Boomdandy, Lycanthrope, Snitch, Nightwatchman, Damsel, King, Vizier, Plague Doctor, Farmer, and Ahsaahir abilities, as well as Kazali/Soldier and Kazali/Goon jinxes
 - Add new Cannibal/Poppy Grower jinx
 - Remove Organ Grinder/Lil' Monsta and Lycanthrope/Gambler jinxes
-- Fix blue tab gradient for Settings menu tab
+- Fix blue gradient for Settings menu tab
 
 ---
 

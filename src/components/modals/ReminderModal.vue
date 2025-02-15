@@ -1,6 +1,6 @@
 <template>
   <Modal
-    v-if="modals.reminder && availableReminders.length && players[playerIndex]"
+    v-if="isDisplayed"
     @close="toggleModal('reminder')"
   >
     <h3>Choose a reminder token:</h3>
@@ -8,7 +8,7 @@
       <li
         v-for="reminder in availableReminders"
         class="reminder"
-        :class="[reminder.role]"
+        :class="[reminder.role, { match: queryMatches(reminder.name) }]"
         :key="reminder.role + ' ' + reminder.name"
         @click="addReminder(reminder)"
       >
@@ -29,6 +29,13 @@
         <span class="text">{{ reminder.name }}</span>
       </li>
     </ul>
+    <input
+      ref="searchInput"
+      class="reminder-search"
+      placeholder="Search"
+      v-model="query"
+      @keyup="keyup"
+    />
   </Modal>
 </template>
 
@@ -89,7 +96,17 @@ export default {
       });
       // add fabled reminders
       this.$store.state.players.fabled.forEach((role) => {
-        reminders = [...reminders, ...role.reminders.map(mapReminder(role))];
+        role.reminders.map(mapReminder(role)).forEach((reminder1) => {
+          if (
+            !reminders.some(
+              (reminder2) =>
+                reminder2.name === reminder1.name &&
+                reminder2.role === reminder1.role,
+            )
+          ) {
+            reminders.push(reminder1);
+          }
+        });;
       });
 
       // add out of script traveller reminders
@@ -109,13 +126,21 @@ export default {
         }
       });
 
-      reminders.push({ role: "good", name: "Good" });
-      reminders.push({ role: "evil", name: "Evil" });
-      reminders.push({ role: "custom", name: "Custom note" });
+      reminders.push({ role: "townsfolk", name: "Good" });
+      reminders.push({ role: "demon", name: "Evil" });
+      reminders.push({ role: "custom", name: "Custom Note" });
       return reminders;
+    },
+    isDisplayed() {
+      return this.modals.reminder && this.availableReminders.length && this.players[this.playerIndex]
     },
     ...mapState(["modals", "grimoire"]),
     ...mapState("players", ["players"]),
+  },
+  data() {
+    return {
+      query: "",
+    };
   },
   methods: {
     addReminder(reminder) {
@@ -135,14 +160,40 @@ export default {
       });
       this.$store.commit("toggleModal", "reminder");
     },
+    keyup(event) {
+      // Allow Escape for modal dialog dismissal.
+      if (event.key === "Esc" || event.key === "Escape") return;
+      event.stopPropagation();
+      // If there's a unique match and the user presses Enter, select that reminder.
+      if (event.key === "Enter") {
+        const matchingReminders = this.availableReminders.filter((r) =>
+          this.queryMatches(r.name),
+        );
+        if (matchingReminders.length === 1) {
+          this.addReminder(matchingReminders[0]);
+        }
+      }
+    },
+    queryMatches(name) {
+      // A search query matches if, after removing all non-word characters,
+      // it is a case-insensitive prefix of the character name.
+      const simplify = (str) => str.replaceAll(/\W+/g, "").toLowerCase();
+      return simplify(name || "").startsWith(simplify(this.query));
+    },
     ...mapMutations(["toggleModal"]),
+  },
+  watch: {
+    isDisplayed(shown) {
+      this.query = "";
+      if (shown) this.$nextTick(() => this.$refs.searchInput.focus());
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 ul.reminders .reminder {
-  background: url("../../assets/reminder.png") center center;
+  background: url("../../assets/reminder.webp") center center;
   background-size: 100%;
   width: 14vh;
   height: 14vh;
@@ -185,6 +236,26 @@ ul.reminders .reminder {
 
   &:hover {
     transform: scale(1.2);
+  }
+
+  &:not(.match) {
+    opacity: 0.4;
+  }
+}
+
+input.reminder-search {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: solid white;
+  border-width: 0 0 1px 0;
+  outline: none;
+  color: white;
+  font-size: 1em;
+  touch-action: none;
+
+  &:not(:focus) {
+    border-bottom-color: #777;
   }
 }
 </style>
