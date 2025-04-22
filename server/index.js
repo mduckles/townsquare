@@ -43,7 +43,7 @@ if ('CT_HOSTNAME' in process.env) {
 
 const server = https.createServer(options);
 const wss = new WebSocket.Server({
-  ...(process.env.NODE_ENV === "nossl" ? { port: 8001 } : { server }),
+  ...(process.env.NODE_ENV === "nossl" ? { port: 8002 } : { server }),
   verifyClient: (info) =>
     info.origin &&
     !!info.origin.match(

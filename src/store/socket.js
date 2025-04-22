@@ -1,7 +1,6 @@
-
 class LiveSession {
   constructor(store) {
-    this._wss = process.env.CT_WEBSOCKET || "ws://clocktower.live:8081";
+    this._wss = process.env.CT_WEBSOCKET || "wss://ws.mduck.net/";
     // this._wss = "ws://localhost:8081/"; // uncomment if using local server with NODE_ENV=development
     this._socket = null;
     this._isSpectator = true;
@@ -526,8 +525,7 @@ class LiveSession {
     if (
       this._isSpectator ||
       property === "reminders" ||
-      property === "hasResponded" ||
-      property === "alignmentIndex"
+      property === "hasResponded"
     )
       return;
     const index = this._store.state.players.players.indexOf(player);

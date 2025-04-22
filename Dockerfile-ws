@@ -7,10 +7,10 @@ ADD . /app
 
 # Install websocket server 
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8001
+# Make port 8001 available to the world outside this container
+EXPOSE 8002
 
-ENV NODE_ENV=development
+ENV NODE_ENV=nossl
 
 # Run websocket server when the container launches
 CMD ["node", "server/index.js"]
