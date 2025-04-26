@@ -1,8 +1,12 @@
 # Release Notes
 
 ### Version 2.20.3
-- Corrected Atheist, Fearmonger, & Lord of Typhon ability texts to match the official app and upcoming physical tokens
-- Corrected Beggar, Fibbin, Bone Collector, Pit-Hag, Scarlet Woman, & Voudon ability texts to match the official app and physical game
+- Corrected Atheist, Fearmonger, Lord of Typhon, Beggar, Fibbin, Bone Collector, Pit-Hag, Scarlet Woman, & Voudon ability texts to match the official app and existing/upcoming physical tokens
+- Changed Town Square view to hide the alignment of Travellers
+- Added the ability to hide a custom script's title and author following the recent change to the official [JSON Schema](https://github.com/ThePandemoniumInstitute/botc-release/blob/main/script-schema.json)
+- Added support for custom Bootlegger rules, following the recent change to the official [JSON Schema](https://github.com/ThePandemoniumInstitute/botc-release/blob/main/script-schema.json)
+- Disabled the ability to add death shrouds during the night phase to avoid accidental shrouding - players can still be publicly killed during the night by flipping the tokens with 'G'
+- Renamed "Remove All" characters to "Clear All" to disambiguate this menu option with "Remove All" players
 
 ### Version 2.20.2
 - Corrected Fool & Bishop ability texts to match the official app and physical game

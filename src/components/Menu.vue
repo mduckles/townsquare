@@ -217,7 +217,7 @@
             <em><font-awesome-icon icon="dragon" /></em>
           </li>
           <li @click="clearRoles" v-if="players.length">
-            Remove All
+            Clear All
             <em><font-awesome-icon icon="trash-alt" /></em>
           </li>
         </template>

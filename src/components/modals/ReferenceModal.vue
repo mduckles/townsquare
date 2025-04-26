@@ -16,6 +16,30 @@
       <font-awesome-icon icon="address-card" />
       {{ edition.name || "Custom Script" }}
     </h3>
+
+    <div class="team bootlegger" v-if="edition.bootlegger && edition.bootlegger.length">
+      <aside>
+        <h4>Rules</h4>
+      </aside>
+      <ul>
+        <li v-for="(rule, index) in edition.bootlegger" :key="index">
+          <span
+            class="icon"
+            :style="{
+              backgroundImage: `url(${
+                require('../../assets/icons/bootlegger.webp')
+              })`,
+            }"
+          ></span>
+          <div class="role">
+            <span class="ability">{{ rule }}</span>
+          </div>
+        </li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+
     <div
       v-for="(teamRoles, team) in rolesGrouped"
       :key="team"
@@ -221,6 +245,12 @@ h3 {
   }
   aside {
     background: linear-gradient(-90deg, $fabled, transparent);
+  }
+}
+
+.bootlegger {
+  aside {
+    background: linear-gradient(-90deg, #ffc01f, transparent);
   }
 }
 

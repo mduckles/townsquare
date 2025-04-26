@@ -1,10 +1,10 @@
 {
-  "teensyville":[
+  "teensyville": [
     [
       {
-        "id":"_meta",
-        "author":"Steven Medway",
-        "name":"No Greater Joy"
+        "id": "_meta",
+        "author": "Steven Medway",
+        "name": "No Greater Joy"
       },
       "investigator",
       "clockmaker",
@@ -20,10 +20,11 @@
     ],
     [
       {
-        "id":"_meta",
-        "logo":"https://i.imgur.com/DUzjsL4.png",
-        "author":"Steven Medway",
-        "name":"Laissez un Faire"
+        "id": "_meta",
+        "logo": "https://i.imgur.com/DUzjsL4.png",
+        "hideTitle": true,
+        "author": "Steven Medway",
+        "name": "Laissez un Faire"
       },
       "balloonist",
       "savant",
@@ -38,12 +39,12 @@
       "leviathan"
     ]
   ],
-  "standard":[
+  "standard": [
     [
       {
-        "id":"_meta",
-        "author":"Emily",
-        "name":"Catfishing"
+        "id": "_meta",
+        "author": "Emily",
+        "name": "Catfishing"
       },
       "chef",
       "investigator",
@@ -73,9 +74,9 @@
     ],
     [
       {
-        "id":"_meta",
-        "author":"Lau",
-        "name":"Boozling"
+        "id": "_meta",
+        "author": "Lau",
+        "name": "Boozling"
       },
       "noble",
       "pixie",
@@ -105,10 +106,10 @@
     ],
     [
       {
-        "id":"_meta",
+        "id": "_meta",
         "logo": "https://i.imgur.com/OAs1fvK.png",
-        "author":"Viva La Sam",
-        "name":"Extension Cord"
+        "author": "Viva La Sam",
+        "name": "Extension Cord"
       },
       "investigator",
       "pixie",
@@ -143,9 +144,12 @@
     ],
     [
       {
-        "id":"_meta",
-        "author":"Theo",
-        "name":"Harold Holt's Revenge"
+        "id": "_meta",
+        "author": "Theo",
+        "name": "Harold Holt's Revenge",
+        "bootlegger": [
+          "All players always learn that the Leviathan is in play on day 1, even if the Leviathan is drunk."
+        ]
       },
       "investigator",
       "librarian",
