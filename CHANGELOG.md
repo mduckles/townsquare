@@ -1,5 +1,8 @@
 # Release Notes
 
+### Version 2.20.4
+- Added Hermit
+
 ### Version 2.20.3
 - Corrected Atheist, Fearmonger, Lord of Typhon, Beggar, Fibbin, Bone Collector, Pit-Hag, Scarlet Woman, & Voudon ability texts to match the official app and existing/upcoming physical tokens
 - Changed Town Square view to hide the alignment of Travellers

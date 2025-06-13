@@ -1496,6 +1496,21 @@
     "ability": "The Storyteller can break the game rules, and if executed, good wins, even if you are dead. [No evil characters]"
   },
   {
+    "id": "hermit",
+    "name": "Hermit",
+    "edition": "",
+    "team": "outsider",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "reminders": [
+      "1",
+      "2",
+      "3"
+    ],
+    "setup": false,
+    "ability": "You have all Outsider abilities. [-0 or -1 Outsider]"
+  },
+  {
     "id": "ogre",
     "name": "Ogre",
     "edition": "",
