@@ -1507,7 +1507,7 @@
       "2",
       "3"
     ],
-    "setup": false,
+    "setup": true,
     "ability": "You have all Outsider abilities. [-0 or -1 Outsider]"
   },
   {
