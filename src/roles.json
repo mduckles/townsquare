@@ -1704,7 +1704,7 @@
     "name": "Widow",
     "edition": "",
     "team": "minion",
-    "firstNightReminder": "Show the Grimoire to the Widow for as long as they need. The Widow points to a player. That player is poisoned. Wake a good player. Show the 'These characters are in play' card, then the Widow character token.",
+    "firstNightReminder": "Show the Grimoire to the Widow for as long as they need. The Widow points to a player. That player is poisoned. Wake a good player and show the Widow character token.",
     "otherNightReminder": "",
     "reminders": [
       "Poisoned",
