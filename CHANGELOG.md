@@ -1,6 +1,9 @@
 # Release Notes
 
 ### Version 2.20.5
+- Added Deus ex Fiasco and Princess
+
+### Version 2.20.5
 - Added setup leaf to Hermit
 - Fixed Widow's firstNightReminder to no longer reference a non-existent night card
 

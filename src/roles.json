@@ -1383,6 +1383,19 @@
     "ability": "Once per game, during the day, visit the Storyteller for some advice to help your team win."
   },
   {
+    "id": "princess",
+    "name": "Princess",
+    "edition": "",
+    "team": "townsfolk",
+    "firstNightReminder": "",
+    "otherNightReminder": "If it was the Princess' first day today, and they nominated and executed a player, the Demon doesn't kill.",
+    "reminders": [
+      "Doesn't Kill"
+    ],
+    "setup": false,
+    "ability": "On your 1st day, if you nominated & executed a player, the Demon doesn't kill tonight."
+  },
+  {
     "id": "alchemist",
     "name": "Alchemist",
     "edition": "",

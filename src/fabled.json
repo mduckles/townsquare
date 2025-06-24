@@ -1,15 +1,5 @@
 [
   {
-    "id": "doomsayer",
-    "firstNightReminder": "",
-    "otherNightReminder": "",
-    "reminders": [],
-    "setup": false,
-    "name": "Doomsayer",
-    "team": "fabled",
-    "ability": "If 4 or more players live, each living player may publicly choose (once per game) that a player of their own alignment dies."
-  },
-  {
     "id": "angel",
     "firstNightReminder": "",
     "otherNightReminder": "",
@@ -24,6 +14,17 @@
     "ability": "Something bad might happen to whoever is most responsible for the death of a new player."
   },
   {
+    "id": "bootlegger",
+    "firstNight": 1.2,
+    "firstNightReminder": "Inform the group of all homebrew characters or rules for this game.",
+    "otherNightReminder": "",
+    "reminders": [],
+    "setup": false,
+    "name": "Bootlegger",
+    "team": "fabled",
+    "ability": "This script has homebrew characters or rules."
+  },
+  {
     "id": "buddhist",
     "firstNightReminder": "",
     "otherNightReminder": "",
@@ -32,6 +33,94 @@
     "name": "Buddhist",
     "team": "fabled",
     "ability": "For the first 2 minutes of each day, veteran players may not talk."
+  },
+  {
+    "id": "deusexfiasco",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "reminders": ["Whoopsie"],
+    "setup": true,
+    "name": "Deus ex Fiasco",
+    "team": "fabled",
+    "ability": "At least once per game, the Storyteller will make a mistake, correct it, and publicly admit to it."
+  },
+  {
+    "id": "djinn",
+    "firstNight": 1.1,
+    "firstNightReminder": "Inform the group of all Djinn special rules for this game.",
+    "otherNightReminder": "",
+    "reminders": [],
+    "setup": false,
+    "name": "Djinn",
+    "team": "fabled",
+    "ability": "Use the Djinn's special rule. All players know what it is."
+  },
+  {
+    "id": "doomsayer",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "reminders": [],
+    "setup": false,
+    "name": "Doomsayer",
+    "team": "fabled",
+    "ability": "If 4 or more players live, each living player may publicly choose (once per game) that a player of their own alignment dies."
+  },
+  {
+    "id": "duchess",
+    "firstNightReminder": "",
+    "otherNight": 1.2,
+    "otherNightReminder": "Wake each player marked “Visitor” or “False Info” one at a time. Show them the Duchess token, then fingers (1, 2, 3) equaling the number of evil players marked “Visitor” or, if you are waking the player marked “False Info,” show them any number of fingers except the number of evil players marked “Visitor.”",
+    "reminders": [
+      "Visitor",
+      "Visitor",
+      "False Info"
+    ],
+    "setup": false,
+    "name": "Duchess",
+    "team": "fabled",
+    "ability": "Each day, 3 players may choose to visit you. At night*, each visitor learns how many visitors are evil, but 1 gets false info."
+  },
+  {
+    "id": "ferryman",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "reminders": [],
+    "setup": false,
+    "name": "Ferryman",
+    "team": "fabled",
+    "ability": "On the final day, all dead players regain their vote token."
+  },
+  {
+    "id": "fibbin",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "reminders": [
+      "No Ability"
+    ],
+    "setup": false,
+    "name": "Fibbin",
+    "team": "fabled",
+    "ability": "Once per game, 1 good player might get incorrect information."
+  },
+  {
+    "id": "fiddler",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "reminders": [],
+    "setup": false,
+    "name": "Fiddler",
+    "team": "fabled",
+    "ability": "Once per game, the Demon secretly chooses an opposing player: all players choose which of these 2 players win."
+  },
+  {
+    "id": "gardener",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "reminders": [],
+    "setup": false,
+    "name": "Gardener",
+    "team": "fabled",
+    "ability": "The Storyteller assigns 1 or more players' characters."
   },
   {
     "id": "hellslibrarian",
@@ -58,56 +147,6 @@
     "ability": "2 neighboring players are known to be the same alignment. Once per game, 1 of them registers falsely."
   },
   {
-    "id": "fiddler",
-    "firstNightReminder": "",
-    "otherNightReminder": "",
-    "reminders": [],
-    "setup": false,
-    "name": "Fiddler",
-    "team": "fabled",
-    "ability": "Once per game, the Demon secretly chooses an opposing player: all players choose which of these 2 players win."
-  },
-  {
-    "id": "toymaker",
-    "firstNightReminder": "",
-    "otherNight": 1.1,
-    "otherNightReminder": "If it is a night when a Demon attack could end the game, and the Demon is marked “Final night: No Attack,” then the Demon does not act tonight. (Do not wake them.)",
-    "reminders": [
-      "Final Night: No Attack"
-    ],
-    "setup": false,
-    "name": "Toymaker",
-    "team": "fabled",
-    "ability": "The Demon may choose not to attack & must do this at least once per game. Evil players get normal starting info."
-  },
-  {
-    "id": "fibbin",
-    "firstNightReminder": "",
-    "otherNightReminder": "",
-    "reminders": [
-      "No Ability"
-    ],
-    "setup": false,
-    "name": "Fibbin",
-    "team": "fabled",
-    "ability": "Once per game, 1 good player might get incorrect information."
-  },
-  {
-    "id": "duchess",
-    "firstNightReminder": "",
-    "otherNight": 1.2,
-    "otherNightReminder": "Wake each player marked “Visitor” or “False Info” one at a time. Show them the Duchess token, then fingers (1, 2, 3) equaling the number of evil players marked “Visitor” or, if you are waking the player marked “False Info,” show them any number of fingers except the number of evil players marked “Visitor.”",
-    "reminders": [
-      "Visitor",
-      "Visitor",
-      "False Info"
-    ],
-    "setup": false,
-    "name": "Duchess",
-    "team": "fabled",
-    "ability": "Each day, 3 players may choose to visit you. At night*, each visitor learns how many visitors are evil, but 1 gets false info."
-  },
-  {
     "id": "sentinel",
     "firstNightReminder": "",
     "otherNightReminder": "",
@@ -130,17 +169,6 @@
     "ability": "There can't be more than 1 extra evil player."
   },
   {
-    "id": "djinn",
-    "firstNight": 1.1,
-    "firstNightReminder": "Inform the group of all Djinn special rules for this game.",
-    "otherNightReminder": "",
-    "reminders": [],
-    "setup": false,
-    "name": "Djinn",
-    "team": "fabled",
-    "ability": "Use the Djinn's special rule. All players know what it is."
-  },
-  {
     "id": "stormcatcher",
     "firstNight": 1.3,
     "firstNightReminder": "Announce the good 'Safe' character. Mark the player with that character as 'Safe'. Wake each evil player and show them the marked player.",
@@ -154,34 +182,16 @@
     "ability": "Name a good character. If in play, they can only die by execution, but evil players learn which player it is."
   },
   {
-    "id": "bootlegger",
-    "firstNight": 1.2,
-    "firstNightReminder": "Inform the group of all homebrew characters or rules for this game.",
-    "otherNightReminder": "",
-    "reminders": [],
-    "setup": false,
-    "name": "Bootlegger",
-    "team": "fabled",
-    "ability": "This script has homebrew characters or rules."
-  },
-  {
-    "id": "ferryman",
+    "id": "toymaker",
     "firstNightReminder": "",
-    "otherNightReminder": "",
-    "reminders": [],
+    "otherNight": 1.1,
+    "otherNightReminder": "If it is a night when a Demon attack could end the game, and the Demon is marked “Final night: No Attack,” then the Demon does not act tonight. (Do not wake them.)",
+    "reminders": [
+      "Final Night: No Attack"
+    ],
     "setup": false,
-    "name": "Ferryman",
+    "name": "Toymaker",
     "team": "fabled",
-    "ability": "On the final day, all dead players regain their vote token."
-  },
-  {
-    "id": "gardener",
-    "firstNightReminder": "",
-    "otherNightReminder": "",
-    "reminders": [],
-    "setup": false,
-    "name": "Gardener",
-    "team": "fabled",
-    "ability": "The Storyteller assigns 1 or more players' characters."
+    "ability": "The Demon may choose not to attack & must do this at least once per game. Evil players get normal starting info."
   }
 ]

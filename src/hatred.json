@@ -30,6 +30,10 @@
       {
         "id": "poppygrower",
         "reason": "If the Cannibal eats the Poppy Grower, then dies or loses the Poppy Grower ability, the Demon and Minions learn each other that night."
+      },
+      {
+        "id": "princess",
+        "reason": "If the Cannibal nominated, executed & killed the Princess today, the Demon doesn’t kill tonight."
       }
     ]
   },
@@ -158,7 +162,7 @@
     "jinx": [
       {
         "id": "engineer",
-        "reason": "Legion and the Engineer can not both be in play at the start of the game. If the Engineer creates Legion, most players (including all evil players) become evil Legion."
+        "reason": "Legion and the Engineer cannot both be in play at the start of the game. If the Engineer creates Legion, most players (including all evil players) become evil Legion."
       },
       {
         "id": "preacher",
@@ -366,7 +370,7 @@
       },
       {
         "id": "choirboy",
-        "reason": "The Kazali can not choose the King to become a Minion if a Choirboy is in play."
+        "reason": "The Kazali cannot choose the King to become a Minion if a Choirboy is in play."
       },
       {
         "id": "soldier",
@@ -579,7 +583,7 @@
       },
       {
         "id": "pithag",
-        "reason": "A Pit-Hag can not create a Heretic."
+        "reason": "A Pit-Hag cannot create a Heretic."
       },
       {
         "id": "spy",
@@ -609,6 +613,15 @@
       {
         "id": "kazali",
         "reason": "An evil Townsfolk is only created if the Bounty Hunter is still in play after the Kazali acts."
+      }
+    ]
+  },
+  {
+    "id": "alhadikhia",
+    "jinx": [
+      {
+        "id": "princess",
+        "reason": "If the Princess nominated & executed a player on their 1st day, no one dies to the Al-Hadikhia ability tonight."
       }
     ]
   }
