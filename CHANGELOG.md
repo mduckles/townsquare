@@ -1,6 +1,9 @@
 # Release Notes
 
 ### Version 2.20.5
+- Added Wraith and Cacklejack
+
+### Version 2.20.5
 - Added Deus ex Fiasco and Princess
 
 ### Version 2.20.5

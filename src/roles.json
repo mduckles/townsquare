@@ -1757,6 +1757,17 @@
     "ability": "You think you are a good character, but you are not. The Demon knows who you are. [You neighbor the Demon]"
   },
   {
+    "id": "wraith",
+    "name": "Wraith",
+    "edition": "",
+    "team": "minion",
+    "firstNightReminder": "Wake the Wraith tonight whenever other evil players wake.",
+    "otherNightReminder": "Wake the Wraith tonight whenever other evil players wake.",
+    "reminders": [],
+    "setup": false,
+    "ability": "You may choose to open your eyes at night. You wake when other evil players do."
+  },
+  {
     "id": "summoner",
     "name": "Summoner",
     "edition": "",
@@ -1975,6 +1986,17 @@
     ],
     "setup": false,
     "ability": "On day 3, Minions become Riot & nominees die but nominate an alive player immediately. This must happen."
+  },
+  {
+    "id": "cacklejack",
+    "name": "Cacklejack",
+    "edition": "",
+    "team": "traveller",
+    "firstNightReminder": "",
+    "otherNightReminder": "Replace the character token of any player (besides the player the Cacklejack chose today) with a different character token. Wake that player and show them the 'You are' card and their new character token.",
+    "reminders": ["Not Me"],
+    "setup": false,
+    "ability": "Each day, choose a player: a different player changes character tonight."
   },
   {
     "id": "gangster",
