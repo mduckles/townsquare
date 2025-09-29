@@ -31,12 +31,12 @@
         >
           Time per player:
           <font-awesome-icon
-            @mousedown.prevent="setVotingSpeed(-500)"
+            @mousedown.prevent="setVotingSpeed(-100)"
             icon="minus-circle"
           />
           {{ session.votingSpeed / 1000 }}s
           <font-awesome-icon
-            @mousedown.prevent="setVotingSpeed(500)"
+            @mousedown.prevent="setVotingSpeed(100)"
             icon="plus-circle"
           />
         </div>
@@ -282,7 +282,7 @@ export default {
     },
     setVotingSpeed(diff) {
       const speed = Math.round(this.session.votingSpeed + diff);
-      if (speed > 0) {
+      if (speed >= 500 && speed <= 4000) {
         this.$store.commit("session/setVotingSpeed", speed);
       }
     },
