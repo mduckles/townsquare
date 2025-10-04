@@ -1,5 +1,8 @@
 # Release Notes
 
+### Version 2.20.6
+- Added more vote time per player intervals (0.5s --> 0.1s)
+
 ### Version 2.20.5
 - Added Wraith and Cacklejack
 
