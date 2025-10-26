@@ -10,17 +10,6 @@
     "ability": "Something bad might happen to whoever is most responsible for the death of a new player."
   },
   {
-    "id": "bootlegger",
-    "firstNight": 1.2,
-    "firstNightReminder": "Inform the group of all homebrew characters or rules for this game.",
-    "otherNightReminder": "",
-    "reminders": [],
-    "setup": false,
-    "name": "Bootlegger",
-    "team": "fabled",
-    "ability": "This script has homebrew characters or rules."
-  },
-  {
     "id": "buddhist",
     "firstNightReminder": "",
     "otherNightReminder": "",
@@ -103,16 +92,6 @@
     "ability": "Once per game, the Demon secretly chooses an opposing player: all players choose which of these 2 players win."
   },
   {
-    "id": "gardener",
-    "firstNightReminder": "",
-    "otherNightReminder": "",
-    "reminders": [],
-    "setup": false,
-    "name": "Gardener",
-    "team": "fabled",
-    "ability": "The Storyteller assigns 1 or more players' characters."
-  },
-  {
     "id": "hellslibrarian",
     "firstNightReminder": "",
     "otherNightReminder": "",
@@ -151,17 +130,6 @@
     "name": "Spirit of Ivory",
     "team": "fabled",
     "ability": "There can't be more than 1 extra evil player."
-  },
-  {
-    "id": "stormcatcher",
-    "firstNight": 1.3,
-    "firstNightReminder": "Announce the good 'Safe' character. Mark the player with that character as 'Safe'. Wake each evil player and show them the marked player.",
-    "otherNightReminder": "",
-    "reminders": ["Safe"],
-    "setup": false,
-    "name": "Storm Catcher",
-    "team": "fabled",
-    "ability": "Name a good character. If in play, they can only die by execution, but evil players learn which player it is."
   },
   {
     "id": "toymaker",
