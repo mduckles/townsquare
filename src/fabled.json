@@ -205,5 +205,25 @@
     "name": "Storm Catcher",
     "team": "loric",
     "ability": "Name a good character. If in play, they can only die by execution, but evil players learn which player it is."
+  },
+  {
+    "id": "bigwig",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "setup": false,
+    "name": "Big Wig",
+    "image": "/assets/icons/acrobat.webp",
+    "team": "loric",
+
+    "ability": "Each nominee chooses a player: until voting, only they may speak & they are mad the nominee is good or they might die."
+  },
+  {
+    "id": "tor",
+    "firstNightReminder": "Players don't learn character or alignment",
+    "otherNightReminder": "Learn character & alignment",
+    "setup": true,
+    "name": "Tor",
+    "team": "loric",
+    "ability": "Players don't know their character or alignment. They learn them when they die."
   }
 ]
