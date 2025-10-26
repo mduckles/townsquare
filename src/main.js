@@ -39,6 +39,7 @@ const faIcons = [
   "SignLanguage",
   "Skull",
   "Square",
+  "Star",
   "TheaterMasks",
   "Times",
   "TimesCircle",

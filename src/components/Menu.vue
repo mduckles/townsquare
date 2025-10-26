@@ -216,6 +216,10 @@
             Add Fabled
             <em><font-awesome-icon icon="dragon" /></em>
           </li>
+          <li v-if="!session.isSpectator" @click="toggleModal('loric')">
+            Add Loric
+            <em><font-awesome-icon icon="star" /></em>
+          </li>
           <li @click="clearRoles" v-if="players.length">
             Clear All
             <em><font-awesome-icon icon="trash-alt" /></em>

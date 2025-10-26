@@ -30,7 +30,8 @@ export default {
           fabled.push(role);
         }
       });
-      return fabled;
+      // filter our lorics
+      return fabled.filter(fabled => fabled.team === 'fabled');
     },
   },
   methods: {

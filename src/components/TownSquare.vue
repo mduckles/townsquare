@@ -49,7 +49,7 @@
 
     <div class="fabled" :class="{ closed: !isFabledOpen }" v-if="fabled.length">
       <h3>
-        <span>Fabled</span>
+        <span>{{ fabledModalName() }}</span>
         <font-awesome-icon icon="times-circle" @click.stop="toggleFabled" />
         <font-awesome-icon icon="plus-circle" @click.stop="toggleFabled" />
       </h3>
@@ -118,6 +118,18 @@ export default {
     };
   },
   methods: {
+    fabledModalName() {
+      const hasFabled = !!this.fabled.find(role => role.team === 'fabled')
+      const hasLoric = !!this.fabled.find(role => role.team === 'loric')
+      if (hasFabled && !hasLoric) {
+        return 'Fabled'
+      }
+      if(!hasFabled && hasLoric) {
+        return 'Loric'
+      }
+
+      return 'Fabled/Loric'
+    }, 
     toggleBluffs() {
       this.isBluffsOpen = !this.isBluffsOpen;
     },
