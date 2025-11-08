@@ -1,8 +1,5 @@
 <template>
-  <Modal
-    v-if="isDisplayed"
-    @close="toggleModal('reminder')"
-  >
+  <Modal v-if="isDisplayed" @close="toggleModal('reminder')">
     <h3>Choose a reminder token:</h3>
     <ul class="reminders">
       <li
@@ -17,7 +14,9 @@
           :style="{
             backgroundImage: `url(${
               reminder.image && grimoire.isImageOptIn
-                ? (Array.isArray(reminder.image) ? reminder.image[0] : reminder.image)
+                ? Array.isArray(reminder.image)
+                  ? reminder.image[0]
+                  : reminder.image
                 : require(
                     '../../assets/icons/' +
                       (reminder.imageAlt || reminder.role) +
@@ -66,7 +65,10 @@ export default {
       const { players, bluffs } = this.$store.state.players;
       this.$store.state.roles.forEach((role) => {
         // add reminders from player roles and bluff/other roles
-        if (players.some((p) => p.role.id === role.id) || bluffs.some((bluff) => bluff.id === role.id)) {
+        if (
+          players.some((p) => p.role.id === role.id) ||
+          bluffs.some((bluff) => bluff.id === role.id)
+        ) {
           role.reminders.map(mapReminder(role)).forEach((reminder1) => {
             if (
               !reminders.some(
@@ -94,8 +96,8 @@ export default {
           });
         }
       });
-      // add fabled reminders
-      this.$store.state.players.fabled.forEach((role) => {
+      // add npc reminders
+      this.$store.state.players.npcs.forEach((role) => {
         role.reminders.map(mapReminder(role)).forEach((reminder1) => {
           if (
             !reminders.some(
@@ -106,7 +108,7 @@ export default {
           ) {
             reminders.push(reminder1);
           }
-        });;
+        });
       });
 
       // add out of script traveller reminders
@@ -126,13 +128,17 @@ export default {
         }
       });
 
-      reminders.push({ role: "townsfolk", name: "Good" });
-      reminders.push({ role: "demon", name: "Evil" });
-      reminders.push({ role: "custom", name: "Custom Note" });
+      reminders.push({ role: "good", name: "Good" });
+      reminders.push({ role: "evil", name: "Evil" });
+      reminders.push({ role: "traveller", name: "Custom Note" });
       return reminders;
     },
     isDisplayed() {
-      return this.modals.reminder && this.availableReminders.length && this.players[this.playerIndex]
+      return (
+        this.modals.reminder &&
+        this.availableReminders.length &&
+        this.players[this.playerIndex]
+      );
     },
     ...mapState(["modals", "grimoire"]),
     ...mapState("players", ["players"]),

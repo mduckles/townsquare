@@ -25,6 +25,7 @@ const faIcons = [
   "FileUpload",
   "HandPaper",
   "HandPointRight",
+  "HatWizard",
   "Heartbeat",
   "Image",
   "Link",

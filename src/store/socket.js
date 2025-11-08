@@ -134,8 +134,8 @@ class LiveSession {
       case "edition":
         this._updateEdition(params);
         break;
-      case "fabled":
-        this._updateFabled(params);
+      case "npcs":
+        this._updateNpcs(params);
         break;
       case "gs":
         this._updateGamestate(params);
@@ -332,7 +332,7 @@ class LiveSession {
       });
     } else {
       const { session, grimoire } = this._store.state;
-      const { fabled } = this._store.state.players;
+      const { npcs } = this._store.state.players;
       this.sendEdition(playerId);
       this._sendDirect(playerId, "gs", {
         gamestate: this._gamestate,
@@ -345,7 +345,7 @@ class LiveSession {
         lockedVote: session.lockedVote,
         isVoteInProgress: session.isVoteInProgress,
         markedPlayer: session.markedPlayer,
-        fabled: fabled.map((f) => (f.isCustom ? f : { id: f.id })),
+        npcs: npcs.map((f) => (f.isCustom ? f : { id: f.id })),
         ...(session.nomination ? { votes: session.votes } : {}),
       });
     }
@@ -371,7 +371,7 @@ class LiveSession {
       lockedVote,
       isVoteInProgress,
       markedPlayer,
-      fabled,
+      npcs,
     } = data;
     const players = this._store.state.players.players;
     // adjust number of players
@@ -439,8 +439,8 @@ class LiveSession {
         isVoteInProgress,
       });
       this._store.commit("session/setMarkedPlayer", markedPlayer);
-      this._store.commit("players/setFabled", {
-        fabled: fabled.map((f) => this._store.state.fabled.get(f.id) || f),
+      this._store.commit("players/setNpcs", {
+        npcs: npcs.map((f) => this._store.state.npcs.get(f.id) || f),
       });
     }
   }
@@ -492,26 +492,26 @@ class LiveSession {
   }
 
   /**
-   * Publish a fabled update. ST only
+   * Publish an npc update. ST only
    */
-  sendFabled() {
+  sendNpcs() {
     if (this._isSpectator) return;
-    const { fabled } = this._store.state.players;
+    const { npcs } = this._store.state.players;
     this._send(
-      "fabled",
-      fabled.map((f) => (f.isCustom ? f : { id: f.id })),
+      "npcs",
+      npcs.map((f) => (f.isCustom ? f : { id: f.id })),
     );
   }
 
   /**
-   * Update fabled roles.
-   * @param fabled
+   * Update npc roles.
+   * @param npcs
    * @private
    */
-  _updateFabled(fabled) {
+  _updateNpcs(npcs) {
     if (!this._isSpectator) return;
-    this._store.commit("players/setFabled", {
-      fabled: fabled.map((f) => this._store.state.fabled.get(f.id) || f),
+    this._store.commit("players/setNpcs", {
+      npcs: npcs.map((f) => this._store.state.npcs.get(f.id) || f),
     });
   }
 
@@ -1105,8 +1105,8 @@ export default (store) => {
       case "setEdition":
         session.sendEdition();
         break;
-      case "players/setFabled":
-        session.sendFabled();
+      case "players/setNpcs":
+        session.sendNpcs();
         break;
       case "session/setMarkedPlayer":
         session.setMarked(payload);

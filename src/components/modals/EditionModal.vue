@@ -13,7 +13,7 @@
             )})`,
           }"
           :key="edition.id"
-          @click="setEdition(edition)"
+          @click="loadOfficial(edition)"
         >
           {{ edition.name }}
         </li>
@@ -30,16 +30,16 @@
     </div>
     <div class="custom" v-else>
       <h3>Load custom script / characters</h3>
-      To write your own custom script, you need to select the characters you want
-      to play with in the official
+      To write your own custom script, you need to select the characters you
+      want to play with in the official
       <a href="https://script.bloodontheclocktower.com/" target="_blank"
         >Script Tool</a
       >
-      and then upload the generated JSON either directly here or
-      provide a URL to such a hosted JSON file. There are also a multitude of
-      existing popular custom scripts, many of which can be found at
+      and then upload the generated JSON either directly here or provide a URL
+      to such a hosted JSON file. There are also a multitude of existing popular
+      custom scripts, many of which can be found at
       <a href="https://botcscripts.com/?sort=num_favs" target="_blank"
-      >botcscripts.com</a
+        >botcscripts.com</a
       >.<br />
       <br />
       To play with custom characters, please read
@@ -108,7 +108,7 @@ export default {
       isCustom: false,
     };
   },
-  computed: mapState(["modals"]),
+  computed: mapState(["roles", "modals", "edition", "jinxes"]),
   methods: {
     openUpload() {
       this.$refs.upload.click();
@@ -158,6 +158,10 @@ export default {
         alert("Error reading custom script: " + e.message);
       }
     },
+    loadOfficial(edition) {
+      this.$store.commit("players/setNpcs", {});
+      this.$store.commit("setEdition", edition);
+    },
     parseRoles(roles) {
       if (!roles || !roles.length) return;
       roles = roles.map((role) =>
@@ -169,29 +173,54 @@ export default {
         meta = roles.splice(metaIndex, 1).pop();
       }
       if (meta.firstNight) {
-        meta.firstNight = meta.firstNight.map((id) => this.$store.getters.clean(id));
+        meta.firstNight = meta.firstNight.map((id) =>
+          this.$store.getters.clean(id),
+        );
       }
       if (meta.otherNight) {
-        meta.otherNight = meta.otherNight.map((id) => this.$store.getters.clean(id));
+        meta.otherNight = meta.otherNight.map((id) =>
+          this.$store.getters.clean(id),
+        );
       }
       this.$store.commit("setCustomRoles", roles);
       this.$store.commit(
         "setEdition",
         Object.assign({}, meta, { id: "custom" }),
       );
-      // check for fabled and set those too, if present
-      if (roles.some((role) => this.$store.state.fabled.has(role.id || role))) {
-        const fabled = [];
-        roles.forEach((role) => {
-          if (this.$store.state.fabled.has(role.id || role)) {
-            fabled.push(this.$store.state.fabled.get(role.id || role));
-          }
-        });
-        this.$store.commit("players/setFabled", { fabled });
+      // check for fabled & loric and set those too, if present
+      const npcs = [];
+      roles.forEach((role) => {
+        if (this.$store.state.npcs.has(role.id || role)) {
+          npcs.push(this.$store.state.npcs.get(role.id || role));
+        }
+      });
+      if (
+        this.roles
+          .values()
+          .some((role) =>
+            new Map([
+              ...(this.jinxes.get(role.id) || []),
+              ...(role.jinxes || []),
+            ])
+              .keys()
+              .some((second) => this.roles.get(second)),
+          ) &&
+        !npcs.some((npc) => npc.id === "djinn")
+      ) {
+        npcs.push(this.$store.state.npcs.get("djinn"));
       }
+      if (
+        (this.roles.values().some((role) => role.isCustom) ||
+          this.edition.bootlegger) &&
+        !npcs.some((npc) => npc.id === "bootlegger")
+      ) {
+        npcs.push(this.$store.state.npcs.get("bootlegger"));
+      }
+      this.$store.commit("players/setNpcs", {});
+      this.$store.commit("players/setNpcs", { npcs });
       this.isCustom = false;
     },
-    ...mapMutations(["toggleModal", "setEdition"]),
+    ...mapMutations(["toggleModal"]),
   },
 };
 </script>

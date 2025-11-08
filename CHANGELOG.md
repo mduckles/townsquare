@@ -1,12 +1,37 @@
 # Release Notes
 
-### Version 2.20.6
+### Version 2.21.0
+- Added the Loric character type, including the Big Wig and Tor
+- Changed the character type of Bootlegger, Gardener and Storm Catcher to Loric
+- Converted all logic using the term "Fabled" in the backend to "NPC"
+- Moved Fabled & Loric into the main nightsheet.json
+- Made characters automatically send to players when they are distributed, unless there is a Gardener in play
+- Added Minion & Demon info icons locally due to changes in the icon repository
+- Made it so a Djinn automatically enters play if a script is loaded with jinxes on it
+- Made it so a Bootlegger automatically enters play if a script is loaded with a Bootlegger rule or homebrew characters on it
+- Made NPCs clear when a new script is loaded
+- Made NPCS not clear when other characters are cleared
+- Adjusted night order logic so the firstNight and otherNight lists from the script meta can include NPCs
+- Made the night order token overlay hidden for players - the night order list can still be accessed with the 'n' key
+- Fixed Damsel first-night reminder text
+- Set self-naming to be allowed by default
+- Added default player name if one is not specified
+- Removed Secret Vote and Voting Twice options from the Vote History screen - they are still accessible in the menu
+- Fixed all players getting kicked from their seats when the ST clears all characters
+- Fixed player names not turning red on hover for players/spectators
+- Fixed Discord link to the Unofficial Discord
+- Added recommended Travellers for Catfishing
+
+### Version 2.20.9
+- Updated jinxes and night order to match official changes
+
+### Version 2.20.8
 - Added more vote time per player intervals (0.5s --> 0.1s)
 
-### Version 2.20.5
+### Version 2.20.7
 - Added Wraith and Cacklejack
 
-### Version 2.20.5
+### Version 2.20.6
 - Added Deus ex Fiasco and Princess
 
 ### Version 2.20.5

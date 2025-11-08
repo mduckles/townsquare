@@ -25,24 +25,6 @@
           />
           Accessible to players
         </div>
-        <div class="option" @click="setVoteWatching">
-          <font-awesome-icon
-            :icon="[
-              'fas',
-              !session.isVoteWatchingAllowed ? 'check-square' : 'square',
-            ]"
-          />
-          Secret Vote
-        </div>
-        <div class="option" @click="setTwoVotes">
-          <font-awesome-icon
-            :icon="[
-              'fas',
-              session.isTwoVotesEnabled ? 'check-square' : 'square',
-            ]"
-          />
-          Voting Twice
-        </div>
         <div class="option" @click="clearVoteHistory">
           <font-awesome-icon icon="trash-alt" />
           Clear for everyone
@@ -121,23 +103,6 @@ export default {
         // Enable vote watching if vote history is re-enabled.
         this.$store.commit("session/setVoteWatchingAllowed", true);
       }
-    },
-    setVoteWatching() {
-      this.$store.commit(
-        "session/setVoteWatchingAllowed",
-        !this.session.isVoteWatchingAllowed,
-      );
-
-      if (!this.session.isVoteWatchingAllowed) {
-        // Disable vote history if votes are hidden.
-        this.$store.commit("session/setVoteHistoryAllowed", false);
-      }
-    },
-    setTwoVotes() {
-      this.$store.commit(
-        "session/setTwoVotesEnabled",
-        !this.session.isTwoVotesEnabled,
-      );
     },
     ...mapMutations(["toggleModal"]),
   },

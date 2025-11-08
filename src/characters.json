@@ -1180,19 +1180,6 @@
     "ability": "You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary."
   },
   {
-    "id": "bountyhunter",
-    "name": "Bounty Hunter",
-    "edition": "",
-    "team": "townsfolk",
-    "firstNightReminder": "Point to 1 evil player. Wake the townsfolk who is evil and show them the 'You are' card and the thumbs down evil sign.",
-    "otherNightReminder": "If the known evil player has died, point to another evil player. ",
-    "reminders": [
-      "Known"
-    ],
-    "setup": false,
-    "ability": "You start knowing 1 evil player. If the player you know dies, you learn another evil player tonight. [1 Townsfolk is evil]"
-  },
-  {
     "id": "pixie",
     "name": "Pixie",
     "edition": "",
@@ -1205,6 +1192,19 @@
     ],
     "setup": false,
     "ability": "You start knowing 1 in-play Townsfolk. If you were mad that you were this character, you gain their ability when they die."
+  },
+  {
+    "id": "bountyhunter",
+    "name": "Bounty Hunter",
+    "edition": "",
+    "team": "townsfolk",
+    "firstNightReminder": "Point to 1 evil player. Wake the townsfolk who is evil and show them the 'You are' card and the thumbs down evil sign.",
+    "otherNightReminder": "If the known evil player has died, point to another evil player. ",
+    "reminders": [
+      "Known"
+    ],
+    "setup": false,
+    "ability": "You start knowing 1 evil player. If the player you know dies, you learn another evil player tonight. [1 Townsfolk is evil]"
   },
   {
     "id": "highpriestess",
@@ -1489,7 +1489,7 @@
     "name": "Poppy Grower",
     "edition": "",
     "team": "townsfolk",
-    "firstNightReminder": "Do not inform the Demon/Minions who each other are",
+    "firstNightReminder": "Do not inform the Demon/Minions who each other are.",
     "otherNightReminder": "If the Poppy Grower has died, show the Minions/Demon who each other are.",
     "reminders": [
       "Evil Wakes"
@@ -1602,7 +1602,7 @@
     "name": "Damsel",
     "edition": "",
     "team": "outsider",
-    "firstNightReminder": "Wake all the Minions, show them the 'This character selected you' card and the Damsel token.",
+    "firstNightReminder": "If selected by the Huntsman, wake the Damsel, show 'You are' card and a not-in-play Townsfolk token.",
     "otherNightReminder": "If selected by the Huntsman, wake the Damsel, show 'You are' card and a not-in-play Townsfolk token.",
     "reminders": [
       "Guess Used"
@@ -1873,19 +1873,6 @@
     "ability": "Each night, Minions choose who babysits Lil' Monsta & \"is the Demon\". Each night*, a player might die. [+1 Minion]"
   },
   {
-    "id": "kazali",
-    "name": "Kazali",
-    "edition": "",
-    "team": "demon",
-    "firstNightReminder": "The Kazali points to a player and a Minion on the character sheet. They do this for as many Minions as should be in play. Change those players' tokens to the chosen Minion tokens. Wake those players, show them the 'You Are' card, the Minions they have become, and a thumbs down.",
-    "otherNightReminder": "The Kazali points to a player. That player dies",
-    "reminders": [
-      "Dead"
-    ],
-    "setup": true,
-    "ability": "Each night*, choose a player: they die. [You choose which players are which Minions. -? to +? Outsiders]"
-  },
-  {
     "id": "ojo",
     "name": "Ojo",
     "edition": "",
@@ -1899,19 +1886,17 @@
     "ability": "Each night*, choose a character: they die. If they are not in play, the Storyteller chooses who dies."
   },
   {
-    "id": "alhadikhia",
-    "name": "Al-Hadikhia",
+    "id": "kazali",
+    "name": "Kazali",
     "edition": "",
     "team": "demon",
-    "firstNightReminder": "",
-    "otherNightReminder": "The Al-Hadikhia might choose 3 players. If so, announce the first player, wake them to nod yes to live or shake head no to die, kill or resurrect accordingly, then put to sleep and announce the next player. If all 3 are alive after this, all 3 die.",
+    "firstNightReminder": "The Kazali points to a player and a Minion on the character sheet. They do this for as many Minions as should be in play. Change those players' tokens to the chosen Minion tokens. Wake those players, show them the 'You Are' card, the Minions they have become, and a thumbs down.",
+    "otherNightReminder": "The Kazali points to a player. That player dies",
     "reminders": [
-      "1",
-      "2",
-      "3"
+      "Dead"
     ],
-    "setup": false,
-    "ability": "Each night*, you may choose 3 players (all players learn who): each silently chooses to live or die, but if all live, all die."
+    "setup": true,
+    "ability": "Each night*, choose a player: they die. [You choose which players are which Minions. -? to +? Outsiders]"
   },
   {
     "id": "legion",
@@ -1955,6 +1940,36 @@
     "ability": "Each night*, choose a player: they die. You start by choosing a player: they are poisoned. You die if & only if they are dead."
   },
   {
+    "id": "alhadikhia",
+    "name": "Al-Hadikhia",
+    "edition": "",
+    "team": "demon",
+    "firstNightReminder": "",
+    "otherNightReminder": "The Al-Hadikhia might choose 3 players. If so, announce the first player, wake them to nod yes to live or shake head no to die, kill or resurrect accordingly, then put to sleep and announce the next player. If all 3 are alive after this, all 3 die.",
+    "reminders": [
+      "1",
+      "2",
+      "3"
+    ],
+    "setup": false,
+    "ability": "Each night*, you may choose 3 players (all players learn who): each silently chooses to live or die, but if all live, all die."
+  },
+  {
+    "id": "riot",
+    "name": "Riot",
+    "edition": "",
+    "team": "demon",
+    "firstNightReminder": "",
+    "otherNightReminder": "",
+    "reminders": [
+      "Night 1",
+      "Night 2",
+      "Night 3"
+    ],
+    "setup": false,
+    "ability": "On day 3, Minions become Riot & nominees die but nominate an alive player immediately. This must happen."
+  },
+  {
     "id": "leviathan",
     "name": "Leviathan",
     "edition": "",
@@ -1971,21 +1986,6 @@
     ],
     "setup": false,
     "ability": "If more than 1 good player is executed, evil wins. All players know you are in play. After day 5, evil wins."
-  },
-  {
-    "id": "riot",
-    "name": "Riot",
-    "edition": "",
-    "team": "demon",
-    "firstNightReminder": "",
-    "otherNightReminder": "",
-    "reminders": [
-      "Night 1",
-      "Night 2",
-      "Night 3"
-    ],
-    "setup": false,
-    "ability": "On day 3, Minions become Riot & nominees die but nominate an alive player immediately. This must happen."
   },
   {
     "id": "cacklejack",

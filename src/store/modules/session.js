@@ -24,7 +24,7 @@ const state = () => ({
   votes: [],
   lockedVote: 0,
   votingSpeed: 1000,
-  allowSelfNaming: false,
+  allowSelfNaming: true,
   isVoteInProgress: false,
   voteHistory: [],
   markedPlayer: -1,

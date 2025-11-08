@@ -29,7 +29,7 @@
     <TownSquare></TownSquare>
     <Menu ref="menu"></Menu>
     <EditionModal />
-    <FabledModal />
+    <NpcModal />
     <RolesModal />
     <ReferenceModal />
     <NightOrderModal />
@@ -53,7 +53,7 @@ import ReferenceModal from "./components/modals/ReferenceModal";
 import Vote from "./components/Vote";
 import Gradients from "./components/Gradients";
 import NightOrderModal from "./components/modals/NightOrderModal";
-import FabledModal from "@/components/modals/FabledModal";
+import NpcModal from "@/components/modals/NpcModal";
 import VoteHistoryModal from "@/components/modals/VoteHistoryModal";
 import GameStateModal from "@/components/modals/GameStateModal";
 
@@ -61,7 +61,7 @@ export default {
   components: {
     GameStateModal,
     VoteHistoryModal,
-    FabledModal,
+    NpcModal,
     NightOrderModal,
     Vote,
     ReferenceModal,

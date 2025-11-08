@@ -8,10 +8,10 @@
             class="button alignment"
             :class="{
               townsfolk: alignment === 'Good',
-              demon: alignment === 'Evil'
+              demon: alignment === 'Evil',
             }"
             @click="toggleAlignment"
-          >{{alignment}}</span
+            >{{ alignment }}</span
           >
         </div>
       </li>
@@ -33,7 +33,7 @@
         :key="role.id"
         @click="setRole(role, getAlignmentIndex(role))"
       >
-        <Token :role="role" :alignment-index="getAlignmentIndex(role)"/>
+        <Token :role="role" :alignment-index="getAlignmentIndex(role)" />
       </li>
     </ul>
     <div
@@ -44,14 +44,16 @@
         class="button"
         :class="{ townsfolk: tab === 'editionRoles' }"
         @click="tab = 'editionRoles'"
-        >Edition Roles</span
       >
+        Edition Roles
+      </span>
       <span
         class="button"
         :class="{ townsfolk: tab === 'otherTravellers' }"
         @click="tab = 'otherTravellers'"
-        >Other Travellers</span
       >
+        Other Travellers
+      </span>
     </div>
     <input
       ref="searchInput"
@@ -142,7 +144,13 @@ export default {
         if (role.team === "traveller") return 2;
         else if (role.team !== "minion" && role.team !== "demon") return 1;
       }
-      if (this.alignment === "Good" && (role.team === "traveller" || role.team === "minion" || role.team === "demon")) return 1;
+      if (
+        this.alignment === "Good" &&
+        (role.team === "traveller" ||
+          role.team === "minion" ||
+          role.team === "demon")
+      )
+        return 1;
       return 0;
     },
     queryMatches(name) {
@@ -164,7 +172,7 @@ export default {
           this.queryMatches(r.name),
         );
         if (matchingRoles.length === 1) {
-          const role = matchingRoles[0]
+          const role = matchingRoles[0];
           this.setRole(role, this.getAlignmentIndex(role));
         }
       }
@@ -186,7 +194,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../vars.scss";
- 
+
 .modal {
   overflow-y: auto;
   overflow-x: hidden;
@@ -201,7 +209,7 @@ ul.heading {
     margin-right: auto;
   }
 }
-  
+
 ul.tokens li {
   border-radius: 50%;
   width: 6vw;

@@ -17,7 +17,10 @@
       {{ edition.name || "Custom Script" }}
     </h3>
 
-    <div class="team bootlegger" v-if="edition.bootlegger && edition.bootlegger.length">
+    <div
+      class="team bootlegger"
+      v-if="edition.bootlegger && edition.bootlegger.length"
+    >
       <aside>
         <h4>Rules</h4>
       </aside>
@@ -26,9 +29,7 @@
           <span
             class="icon"
             :style="{
-              backgroundImage: `url(${
-                require('../../assets/icons/bootlegger.webp')
-              })`,
+              backgroundImage: `url(${require('../../assets/icons/bootlegger.webp')})`,
             }"
           ></span>
           <div class="role">
@@ -54,9 +55,7 @@
             class="icon"
             v-if="role.id"
             :style="{
-              backgroundImage: `url(${
-                getImage(role)
-              })`,
+              backgroundImage: `url(${getImage(role)})`,
             }"
           ></span>
           <div class="role">
@@ -81,17 +80,13 @@
           <span
             class="icon"
             :style="{
-              backgroundImage: `url(${
-                getImage(jinx.first)
-              })`,
+              backgroundImage: `url(${getImage(jinx.first)})`,
             }"
           ></span>
           <span
             class="icon"
             :style="{
-              backgroundImage: `url(${
-                getImage(jinx.second)
-              })`,
+              backgroundImage: `url(${getImage(jinx.second)})`,
             }"
           ></span>
           <div class="role">
@@ -123,7 +118,7 @@ export default {
      */
     jinxed: function () {
       const jinxed = [];
-      const pushAllJinxes = ((role, jinxes) => {
+      const pushAllJinxes = (role, jinxes) => {
         jinxes.forEach((reason, second) => {
           if (this.roles.get(second)) {
             jinxed.push({
@@ -133,9 +128,10 @@ export default {
             });
           }
         });
-      });
+      };
       this.roles.forEach((role) => {
-        if (this.jinxes.get(role.id)) pushAllJinxes(role, this.jinxes.get(role.id));
+        if (this.jinxes.get(role.id))
+          pushAllJinxes(role, this.jinxes.get(role.id));
         if (role.jinxes) pushAllJinxes(role, role.jinxes);
       });
       return jinxed;
@@ -176,9 +172,9 @@ export default {
         return role.image;
       }
 
-      return require('../../assets/icons/' +
-        (role.imageAlt || role.id) +
-        '.webp');
+      return require(
+        "../../assets/icons/" + (role.imageAlt || role.id) + ".webp",
+      );
     },
     ...mapMutations(["toggleModal"]),
   },
@@ -250,7 +246,7 @@ h3 {
 
 .bootlegger {
   aside {
-    background: linear-gradient(-90deg, #ffc01f, transparent);
+    background: linear-gradient(-90deg, $loric, transparent);
   }
 }
 

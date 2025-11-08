@@ -54,7 +54,10 @@
             <template v-if="grimoire.isNight">Switch to Day</template>
             <em>[S]</em>
           </li>
-          <li @click="toggleNightOrder" v-if="players.length">
+          <li
+            @click="toggleNightOrder"
+            v-if="players.length && !session.isSpectator"
+          >
             Night Order
             <em>
               <font-awesome-icon
@@ -128,7 +131,10 @@
               Copy Player Link
               <em><font-awesome-icon icon="copy" /></em>
             </li>
-            <li v-if="!session.isSpectator" @click="distributeRoles">
+            <li
+              v-if="!session.isSpectator && isGardenerActive"
+              @click="distributeRoles"
+            >
               Send Characters
               <em><font-awesome-icon icon="theater-masks" /></em>
             </li>
@@ -138,43 +144,34 @@
             >
               Vote History<em>[V]</em>
             </li>
-            <li
-              v-if="!session.isSpectator"
-              @click="toggleSelfNaming"
-            >
+            <li v-if="!session.isSpectator" @click="toggleSelfNaming">
               Allow Self-Naming
               <em
-              ><font-awesome-icon
-                :icon="[
-                  'fas',
-                  session.allowSelfNaming ? 'check-square' : 'square',
-                ]"
+                ><font-awesome-icon
+                  :icon="[
+                    'fas',
+                    session.allowSelfNaming ? 'check-square' : 'square',
+                  ]"
               /></em>
             </li>
-            <li
-              v-if="!session.isSpectator"
-              @click="setVoteWatching"
-            >
+            <li v-if="!session.isSpectator" @click="setVoteWatching">
               Secret Vote
               <em
-              ><font-awesome-icon
-                :icon="[
-                  'fas',
-                  !session.isVoteWatchingAllowed ? 'check-square' : 'square',
-                ]"
+                ><font-awesome-icon
+                  :icon="[
+                    'fas',
+                    !session.isVoteWatchingAllowed ? 'check-square' : 'square',
+                  ]"
               /></em>
             </li>
-            <li
-              v-if="!session.isSpectator"
-              @click="setTwoVotes"
-            >
+            <li v-if="!session.isSpectator" @click="setTwoVotes">
               Voting Twice
               <em
-              ><font-awesome-icon
-                :icon="[
-                  'fas',
-                  session.isTwoVotesEnabled ? 'check-square' : 'square',
-                ]"
+                ><font-awesome-icon
+                  :icon="[
+                    'fas',
+                    session.isTwoVotesEnabled ? 'check-square' : 'square',
+                  ]"
               /></em>
             </li>
             <li @click="leaveSession">
@@ -212,8 +209,8 @@
             Choose & Assign
             <em>[C]</em>
           </li>
-          <li v-if="!session.isSpectator" @click="toggleModal('fabled')">
-            Add Fabled
+          <li v-if="!session.isSpectator" @click="toggleModal('npc')">
+            Add NPCs
             <em><font-awesome-icon icon="dragon" /></em>
           </li>
           <li @click="clearRoles" v-if="players.length">
@@ -238,11 +235,11 @@
             <em><font-awesome-icon icon="file-code" /></em>
           </li>
           <li>
-            <a href="https://discord.gg/Gd7ybwWbFk" target="_blank">
-              Join Discord
+            <a href="https://discord.gg/botc" target="_blank">
+              Join Unofficial Discord
             </a>
             <em>
-              <a href="https://discord.gg/Gd7ybwWbFk" target="_blank">
+              <a href="https://discord.gg/botc" target="_blank">
                 <font-awesome-icon :icon="['fab', 'discord']" />
               </a>
             </em>
@@ -274,8 +271,11 @@ import { mapMutations, mapState } from "vuex";
 
 export default {
   computed: {
+    isGardenerActive: function () {
+      return this.npcs.some((npc) => npc.id === "gardener");
+    },
     ...mapState(["grimoire", "session", "edition"]),
-    ...mapState("players", ["players"]),
+    ...mapState("players", ["players", "npcs"]),
   },
   data() {
     return {
@@ -352,7 +352,7 @@ export default {
     addPlayer() {
       if (this.session.isSpectator) return;
       if (this.players.length >= 20) return;
-      const name = prompt("Player name");
+      const name = prompt("Player name", "Player " + (this.players.length + 1));
       if (name) {
         this.$store.commit("players/add", name);
       }
@@ -405,7 +405,7 @@ export default {
             this.$store.commit("players/update", {
               player: player,
               property: "hasTwoVotes",
-              value: false
+              value: false,
             });
           }
         });

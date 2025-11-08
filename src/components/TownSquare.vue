@@ -47,21 +47,25 @@
       </ul>
     </div>
 
-    <div class="fabled" :class="{ closed: !isFabledOpen }" v-if="fabled.length">
+    <div class="npcs" :class="{ closed: !isNpcsOpen }" v-if="npcs.length">
       <h3>
-        <span>Fabled</span>
-        <font-awesome-icon icon="times-circle" @click.stop="toggleFabled" />
-        <font-awesome-icon icon="plus-circle" @click.stop="toggleFabled" />
+        <span>NPCs</span>
+        <font-awesome-icon icon="times-circle" @click.stop="toggleNpcs" />
+        <font-awesome-icon icon="plus-circle" @click.stop="toggleNpcs" />
       </h3>
       <ul>
         <li
-          v-for="(role, index) in fabled"
+          v-for="(role, index) in npcs"
           :key="index"
-          @click="removeFabled(index)"
+          @click="removeNpc(index)"
         >
           <div
             class="night-order first"
-            v-if="nightOrder.get(role).first && grimoire.isNightOrder"
+            v-if="
+              nightOrder.get(role).first &&
+              grimoire.isNightOrder &&
+              !session.isSpectator
+            "
           >
             <em>{{ nightOrder.get(role).first }}</em>
             <span v-if="role.firstNightReminder">{{
@@ -70,7 +74,11 @@
           </div>
           <div
             class="night-order other"
-            v-if="nightOrder.get(role).other && grimoire.isNightOrder"
+            v-if="
+              nightOrder.get(role).other &&
+              grimoire.isNightOrder &&
+              !session.isSpectator
+            "
           >
             <em>{{ nightOrder.get(role).other }}</em>
             <span v-if="role.otherNightReminder">{{
@@ -104,7 +112,7 @@ export default {
   computed: {
     ...mapGetters({ nightOrder: "players/nightOrder" }),
     ...mapState(["grimoire", "roles", "session"]),
-    ...mapState("players", ["players", "bluffs", "fabled"]),
+    ...mapState("players", ["players", "bluffs", "npcs"]),
   },
   data() {
     return {
@@ -114,19 +122,19 @@ export default {
       move: -1,
       nominate: -1,
       isBluffsOpen: true,
-      isFabledOpen: true,
+      isNpcsOpen: true,
     };
   },
   methods: {
     toggleBluffs() {
       this.isBluffsOpen = !this.isBluffsOpen;
     },
-    toggleFabled() {
-      this.isFabledOpen = !this.isFabledOpen;
+    toggleNpcs() {
+      this.isNpcsOpen = !this.isNpcsOpen;
     },
-    removeFabled(index) {
+    removeNpc(index) {
       if (this.session.isSpectator) return;
-      this.$store.commit("players/setFabled", { index });
+      this.$store.commit("players/setNpcs", { index });
     },
     handleTrigger(playerIndex, [method, params]) {
       if (typeof this[method] === "function") {
@@ -148,7 +156,11 @@ export default {
     },
     openRoleModal(playerIndex) {
       const player = this.players[playerIndex];
-      if (this.session.isSpectator && player && player.role.team === "traveller")
+      if (
+        this.session.isSpectator &&
+        player &&
+        player.role.team === "traveller"
+      )
         return;
       this.selectedPlayer = playerIndex;
       this.$store.commit("toggleModal", "role");
@@ -239,7 +251,7 @@ export default {
     nominatePlayer(from, to) {
       if (this.session.isSpectator || this.session.lockedVote) return;
       if (to === undefined) {
-        const previousNominate = this.nominate
+        const previousNominate = this.nominate;
         this.cancel();
         if (from !== previousNominate) {
           this.nominate = from;
@@ -392,14 +404,14 @@ export default {
   }
 }
 
-/***** Demon bluffs / Fabled *******/
+/***** Demon bluffs / NPCs *******/
 #townsquare > .bluffs,
-#townsquare > .fabled {
+#townsquare > .npcs {
   position: absolute;
   &.bluffs {
     bottom: 10px;
   }
-  &.fabled {
+  &.npcs {
     top: 10px;
   }
   left: 10px;
@@ -495,7 +507,7 @@ export default {
   transform: scale(0.1);
 }
 
-.fabled ul li .token:before {
+.npcs ul li .token:before {
   content: " ";
   opacity: 0;
   transition: opacity 250ms;
@@ -629,8 +641,8 @@ export default {
     opacity: 1;
   }
 
-  // adjustment for fabled
-  .fabled &.first {
+  // adjustment for npcs
+  .npcs &.first {
     span {
       right: auto;
       left: 40px;
@@ -646,7 +658,7 @@ export default {
   }
 }
 
-#townsquare:not(.spectator) .fabled ul li:hover .token:before {
+#townsquare:not(.spectator) .npcs ul li:hover .token:before {
   opacity: 1;
 }
 </style>

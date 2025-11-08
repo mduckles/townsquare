@@ -11,7 +11,9 @@
         })`,
       }"
     ></li>
-    <li v-if="players.length - teams.traveller < 5">Please add more players!</li>
+    <li v-if="players.length - teams.traveller < 5">
+      Please add more players!
+    </li>
     <li>
       <span class="meta" v-if="!(edition.isOfficial || edition.hideTitle)">
         {{ edition.name }}
@@ -70,7 +72,7 @@
 </template>
 
 <script>
-import gameJSON from "./../game";
+import gameJSON from "./../counts.json";
 import { mapState } from "vuex";
 
 export default {

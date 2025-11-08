@@ -4,9 +4,7 @@
       class="icon"
       v-if="role.id"
       :style="{
-        backgroundImage: `url(${
-          getImage(role)
-        })`,
+        backgroundImage: `url(${getImage(role)})`,
       }"
     ></span>
     <span
@@ -56,8 +54,8 @@ export default {
     },
     alignmentIndex: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   computed: {
     reminderLeaves: function () {
@@ -83,12 +81,19 @@ export default {
         return role.image;
       }
 
-      return require('../assets/icons/' +
-        (this.alignmentIndex > 0 ? 'Alternate/' : '') +
-        (role.imageAlt || role.id) +
-        (this.role.team === 'traveller' ?
-          (this.alignmentIndex === 1 ? '_g' : (this.alignmentIndex === 2 ? '_e' : '')) : '') +
-        '.webp');
+      return require(
+        "../assets/icons/" +
+          (this.alignmentIndex > 0 ? "Alternate/" : "") +
+          (role.imageAlt || role.id) +
+          (this.role.team === "traveller"
+            ? this.alignmentIndex === 1
+              ? "_g"
+              : this.alignmentIndex === 2
+                ? "_e"
+                : ""
+            : "") +
+          ".webp",
+      );
     },
     setRole() {
       this.$emit("set-role");

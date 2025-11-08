@@ -11,7 +11,11 @@
             session.markedPlayer === index,
           'no-vote': player.isVoteless,
           'two-votes': player.hasTwoVotes,
-          you: player.connected && session.sessionId && player.id && player.id === session.playerId,
+          you:
+            player.connected &&
+            session.sessionId &&
+            player.id &&
+            player.id === session.playerId,
           'vote-yes':
             (!session.isSpectator ||
               session.isVoteWatchingAllowed ||
@@ -25,7 +29,7 @@
           'vote-lock': voteLocked,
         },
         player.role.team,
-        'alignment-' + player.alignmentIndex
+        'alignment-' + player.alignmentIndex,
       ]"
     >
       <div class="shroud" @click="toggleStatus()"></div>
@@ -33,26 +37,38 @@
 
       <div
         class="night-order first"
-        v-if="nightOrder.get(player).first && grimoire.isNightOrder"
+        v-if="
+          nightOrder.get(player).first &&
+          grimoire.isNightOrder &&
+          !session.isSpectator
+        "
       >
         <em>{{ nightOrder.get(player).first }}</em>
         <span v-if="player.role.firstNightReminder">{{
-            player.role.firstNightReminder
-          }}</span>
+          player.role.firstNightReminder
+        }}</span>
       </div>
       <div
         class="night-order other"
-        v-if="nightOrder.get(player).other && grimoire.isNightOrder"
+        v-if="
+          nightOrder.get(player).other &&
+          grimoire.isNightOrder &&
+          !session.isSpectator
+        "
       >
         <em>{{ nightOrder.get(player).other }}</em>
         <span v-if="player.role.otherNightReminder">{{
-            player.role.otherNightReminder
-          }}</span>
+          player.role.otherNightReminder
+        }}</span>
       </div>
 
       <Token
         :role="player.role"
-        :alignmentIndex="player.role.team === 'traveller' && grimoire.isPublic ? 0 : player.alignmentIndex"
+        :alignmentIndex="
+          player.role.team === 'traveller' && grimoire.isPublic
+            ? 0
+            : player.alignmentIndex
+        "
         @set-role="$emit('trigger', ['openRoleModal'])"
       />
 
@@ -108,7 +124,7 @@
         class="seat"
         :class="{
           highlight: session.isRolesDistributed,
-          disconnected: !player.connected
+          disconnected: !player.connected,
         }"
         :title="setSeatTitle()"
       />
@@ -141,15 +157,14 @@
         :class="{ active: isMenuOpen }"
       >
         <span>{{ player.name }}</span>
-        <span class="pronouns" v-if="player.pronouns">{{ player.pronouns }}</span>
+        <span class="pronouns" v-if="player.pronouns">{{
+          player.pronouns
+        }}</span>
       </div>
 
       <transition name="fold">
         <ul class="menu" v-if="isMenuOpen">
-          <li
-            @click="changeAlignment"
-            v-if="player.role.id"
-          >
+          <li @click="changeAlignment" v-if="player.role.id">
             <font-awesome-icon icon="yin-yang" />
             Change Alignment
           </li>
@@ -157,7 +172,9 @@
             @click="changePronouns"
             v-if="
               !session.isSpectator ||
-              (session.isSpectator && player.connected && player.id === session.playerId)
+              (session.isSpectator &&
+                player.connected &&
+                player.id === session.playerId)
             "
           >
             <font-awesome-icon icon="venus-mars" />
@@ -167,7 +184,10 @@
             @click="changeName"
             v-if="
               !session.isSpectator ||
-              (session.allowSelfNaming && session.isSpectator && player.connected && player.id === session.playerId)
+              (session.allowSelfNaming &&
+                session.isSpectator &&
+                player.connected &&
+                player.id === session.playerId)
             "
           >
             <font-awesome-icon icon="user-edit" />
@@ -203,7 +223,7 @@
             <template v-if="!session.nomination">
               <li @click="nominatePlayer()">
                 <font-awesome-icon icon="hand-point-right" />
-                {{isNominating ? "Cancel Nomination" : "Nomination"}}
+                {{ isNominating ? "Cancel Nomination" : "Nomination" }}
               </li>
             </template>
           </template>
@@ -213,7 +233,14 @@
             :class="{ disabled: player.id && player.id !== session.playerId }"
           >
             <font-awesome-icon icon="chair" />
-            <template v-if="!player.id || (player.id === session.playerId && !player.connected)"> Claim seat</template>
+            <template
+              v-if="
+                !player.id ||
+                (player.id === session.playerId && !player.connected)
+              "
+            >
+              Claim seat</template
+            >
             <template v-else-if="player.id === session.playerId">
               Vacate Seat
             </template>
@@ -236,7 +263,9 @@
           :style="{
             backgroundImage: `url(${
               reminder.image && grimoire.isImageOptIn
-                ? (Array.isArray(reminder.image) ? reminder.image[0] : reminder.image)
+                ? Array.isArray(reminder.image)
+                  ? reminder.image[0]
+                  : reminder.image
                 : require(
                     '../assets/icons/' +
                       (reminder.imageAlt || reminder.role) +
@@ -261,25 +290,25 @@ import { mapGetters, mapState } from "vuex";
 
 export default {
   components: {
-    Token
+    Token,
   },
   props: {
     player: {
       type: Object,
-      required: true
+      required: true,
     },
     isNominating: {
       type: Boolean,
-    }
+    },
   },
   computed: {
     ...mapState("players", ["players"]),
     ...mapState(["grimoire", "session"]),
     ...mapGetters({ nightOrder: "players/nightOrder" }),
-    index: function() {
+    index: function () {
       return this.players.indexOf(this.player);
     },
-    voteLocked: function() {
+    voteLocked: function () {
       const session = this.session;
       const players = this.players.length;
       if (!session.nomination) return false;
@@ -287,7 +316,7 @@ export default {
         (this.index - 1 + players - session.nomination[1]) % players;
       return indexAdjusted < session.lockedVote - 1;
     },
-    zoom: function() {
+    zoom: function () {
       const unit = window.innerWidth > window.innerHeight ? "vh" : "vw";
       if (this.players.length < 7) {
         return { width: 18 + this.grimoire.zoom + unit };
@@ -298,18 +327,22 @@ export default {
       } else {
         return { width: 12 + this.grimoire.zoom + unit };
       }
-    }
+    },
   },
   data() {
     return {
       isMenuOpen: false,
-      isSwap: false
+      isSwap: false,
     };
   },
   methods: {
     changeAlignment() {
       let newAlignment = this.player.alignmentIndex + 1;
-      if ((this.player.role.team !== "traveller" && newAlignment > 1) || newAlignment > 2) newAlignment = 0;
+      if (
+        (this.player.role.team !== "traveller" && newAlignment > 1) ||
+        newAlignment > 2
+      )
+        newAlignment = 0;
       this.updatePlayer("alignmentIndex", newAlignment);
     },
     changePronouns() {
@@ -367,7 +400,7 @@ export default {
       this.$store.commit("players/update", {
         player: this.player,
         property,
-        value
+        value,
       });
       if (closeMenu) {
         this.isMenuOpen = false;
@@ -427,10 +460,10 @@ export default {
 
       this.$store.commit("session/voteSync", [
         this.index,
-        (this.session.votes[this.index] = count)
+        (this.session.votes[this.index] = count),
       ]);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -660,9 +693,9 @@ export default {
 }
 
 #townsquare.vote
-.player:not(.vote-twice)
-.overlay
-svg.second-vote.fa-hand-paper {
+  .player:not(.vote-twice)
+  .overlay
+  svg.second-vote.fa-hand-paper {
   opacity: 0 !important;
 }
 
@@ -740,20 +773,20 @@ li.move:not(.from) .player .overlay svg.move {
 /****** Session seat glow *****/
 @mixin glowAnimation($name, $color) {
   @keyframes #{$name}-glow {
-     0% {
-       box-shadow: 0 0 rgba($color, 1);
-       border-color: $color;
-     }
+    0% {
+      box-shadow: 0 0 rgba($color, 1);
+      border-color: $color;
+    }
 
-     50% {
-       border-color: black;
-     }
+    50% {
+      border-color: black;
+    }
 
-     100% {
-       box-shadow: 0 0 20px 16px transparent;
-       border-color: $color;
-     }
-   }
+    100% {
+      box-shadow: 0 0 20px 16px transparent;
+      border-color: $color;
+    }
+  }
 }
 
 @include glowAnimation("good", $townsfolk);
@@ -883,7 +916,7 @@ li.move:not(.from) .player .overlay svg.move {
     flex-grow: 1;
   }
 
-  #townsquare:not(.spectator) &:hover,
+  &:hover,
   &.active {
     color: red;
   }
@@ -998,10 +1031,11 @@ li.move:not(.from) .player .overlay svg.move {
     width: 100%;
     position: absolute;
     top: 15%;
-    text-shadow: 0 1px 1px #f6dfbd,
-    0 -1px 1px #f6dfbd,
-    1px 0 1px #f6dfbd,
-    -1px 0 1px #f6dfbd;
+    text-shadow:
+      0 1px 1px #f6dfbd,
+      0 -1px 1px #f6dfbd,
+      1px 0 1px #f6dfbd,
+      -1px 0 1px #f6dfbd;
   }
 
   .icon,

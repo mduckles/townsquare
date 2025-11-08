@@ -40,10 +40,10 @@ module.exports = (store) => {
       });
     });
   }
-  if (localStorage.fabled !== undefined) {
-    store.commit("players/setFabled", {
-      fabled: JSON.parse(localStorage.fabled).map(
-        (fabled) => store.state.fabled.get(fabled.id) || fabled,
+  if (localStorage.npcs !== undefined) {
+    store.commit("players/setNpcs", {
+      npcs: JSON.parse(localStorage.npcs).map(
+        (npc) => store.state.npcs.get(npc.id) || npc,
       ),
     });
   }
@@ -140,12 +140,12 @@ module.exports = (store) => {
           JSON.stringify(state.players.bluffs.map(({ id }) => id)),
         );
         break;
-      case "players/setFabled":
+      case "players/setNpcs":
         localStorage.setItem(
-          "fabled",
+          "npcs",
           JSON.stringify(
-            state.players.fabled.map((fabled) =>
-              fabled.isCustom ? fabled : { id: fabled.id },
+            state.players.npcs.map((npc) =>
+              npc.isCustom ? npc : { id: npc.id },
             ),
           ),
         );

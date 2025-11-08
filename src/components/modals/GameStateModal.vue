@@ -40,8 +40,8 @@ export default {
         roles: this.edition.isOfficial
           ? ""
           : this.$store.getters.customRolesStripped,
-        fabled: this.players.fabled.map((fabled) =>
-          fabled.isCustom ? fabled : { id: fabled.id },
+        npcs: this.players.npcs.map((npc) =>
+          npc.isCustom ? npc : { id: npc.id },
         ),
         players: this.players.players.map((player) => ({
           ...player,
@@ -64,7 +64,7 @@ export default {
       if (this.session.isSpectator) return;
       try {
         const data = JSON.parse(this.input || this.gamestate);
-        const { bluffs, edition, roles, fabled, players } = data;
+        const { bluffs, edition, roles, npcs, players } = data;
         if (roles) {
           this.$store.commit("setCustomRoles", roles);
         }
@@ -79,12 +79,12 @@ export default {
             });
           });
         }
-        if (fabled) {
-          this.$store.commit("players/setFabled", {
-            fabled: fabled.map(
+        if (npcs) {
+          this.$store.commit("players/setNpcs", {
+            npcs: npcs.map(
               (f) =>
-                this.$store.state.fabled.get(f) ||
-                this.$store.state.fabled.get(f.id) ||
+                this.$store.state.npcs.get(f) ||
+                this.$store.state.npcs.get(f.id) ||
                 f,
             ),
           });

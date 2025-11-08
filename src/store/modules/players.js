@@ -14,7 +14,7 @@ const NEWPLAYER = {
 
 const state = () => ({
   players: [],
-  fabled: [],
+  npcs: [],
   bluffs: [{}, {}, {}],
 });
 
@@ -29,23 +29,25 @@ const getters = {
     return Math.min(nonTravellers.length, 15);
   },
   // calculate a Map of player => night order
-  nightOrder({ players, fabled }, getters, rootState) {
+  nightOrder({ players, npcs }, getters, rootState) {
+    const edition = rootState.edition;
+    const otherTravellers = rootState.otherTravellers;
     const firstNight = [];
     const otherNight = [];
     players.forEach(({ role }) => {
-      role.firstNightInEdition = rootState.edition.firstNight
-        ? rootState.otherTravellers.has(role.id)
+      role.firstNightInEdition = edition.firstNight
+        ? otherTravellers.has(role.id)
           ? role.firstNight
-            ? rootState.edition.firstNight.indexOf("dusk") + 1.2
+            ? edition.firstNight.indexOf("dusk") + 1.2
             : 0
-          : rootState.edition.firstNight.indexOf(role.id) + 1
+          : edition.firstNight.indexOf(role.id) + 1
         : role.firstNight;
-      role.otherNightInEdition = rootState.edition.otherNight
-        ? rootState.otherTravellers.has(role.id)
+      role.otherNightInEdition = edition.otherNight
+        ? otherTravellers.has(role.id)
           ? role.otherNight
-            ? rootState.edition.otherNight.indexOf("dusk") + 1.2
+            ? edition.otherNight.indexOf("dusk") + 1.2
             : 0
-          : rootState.edition.otherNight.indexOf(role.id) + 1
+          : edition.otherNight.indexOf(role.id) + 1
         : role.otherNight;
       if (role.firstNightInEdition && !firstNight.includes(role)) {
         firstNight.push(role);
@@ -54,20 +56,24 @@ const getters = {
         otherNight.push(role);
       }
     });
-    fabled.forEach((role) => {
-      role.firstNightInEdition =
-        rootState.edition.firstNight && role.firstNight
-          ? rootState.edition.firstNight.indexOf("dusk") + 1.1
-          : role.firstNight;
-      role.otherNightInEdition =
-        rootState.edition.otherNight && role.otherNight
-          ? rootState.edition.otherNight.indexOf("dusk") + 1.1
-          : role.otherNight;
-      if (role.firstNightInEdition && !firstNight.includes(role)) {
-        firstNight.push(role);
+    npcs.forEach((npc) => {
+      npc.firstNightInEdition =
+        edition.firstNight && edition.otherNight.includes(npc.id)
+          ? edition.firstNight.indexOf(npc.id) + 1
+          : edition.firstNight && npc.firstNight
+            ? edition.firstNight.indexOf("dusk") + 1.1
+            : npc.firstNight;
+      npc.otherNightInEdition =
+        edition.otherNight && edition.otherNight.includes(npc.id)
+          ? edition.otherNight.indexOf(npc.id) + 1
+          : edition.otherNight && npc.otherNight
+            ? edition.otherNight.indexOf("dusk") + 1.1
+            : npc.otherNight;
+      if (npc.firstNightInEdition && !firstNight.includes(npc)) {
+        firstNight.push(npc);
       }
-      if (role.otherNightInEdition && !otherNight.includes(role)) {
-        otherNight.push(role);
+      if (npc.otherNightInEdition && !otherNight.includes(npc)) {
+        otherNight.push(npc);
       }
     });
     firstNight.sort((a, b) => a.firstNightInEdition - b.firstNightInEdition);
@@ -78,7 +84,7 @@ const getters = {
       const other = otherNight.indexOf(player.role) + 1;
       nightOrder.set(player, { first, other });
     });
-    fabled.forEach((role) => {
+    npcs.forEach((role) => {
       const first = firstNight.indexOf(role) + 1;
       const other = otherNight.indexOf(role) + 1;
       nightOrder.set(role, { first, other });
@@ -107,13 +113,13 @@ const actions = {
         return player;
       });
     } else {
-      players = state.players.map(({ name, id, pronouns }) => ({
+      players = state.players.map(({ name, id, pronouns, connected }) => ({
         ...NEWPLAYER,
         name,
         id,
         pronouns,
+        connected,
       }));
-      commit("setFabled", { fabled: [] });
     }
     commit("set", players);
     commit("setBluff");
@@ -124,7 +130,6 @@ const mutations = {
   clear(state) {
     state.players = [];
     state.bluffs = [{}, {}, {}];
-    state.fabled = [];
   },
   set(state, players = []) {
     state.players = players;
@@ -171,15 +176,17 @@ const mutations = {
       state.bluffs = [{}, {}, {}];
     }
   },
-  setFabled(state, { index, fabled } = {}) {
+  setNpcs(state, { index, npcs } = {}) {
     if (index !== undefined) {
-      state.fabled.splice(index, 1);
-    } else if (fabled) {
-      if (!Array.isArray(fabled)) {
-        state.fabled.push(fabled);
+      state.npcs.splice(index, 1);
+    } else if (npcs) {
+      if (!Array.isArray(npcs)) {
+        state.npcs.push(npcs);
       } else {
-        state.fabled = fabled;
+        state.npcs = npcs;
       }
+    } else {
+      state.npcs = [];
     }
   },
 };
