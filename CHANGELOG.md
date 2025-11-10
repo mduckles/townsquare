@@ -5,7 +5,8 @@
 - Changed the character type of Bootlegger, Gardener and Storm Catcher to Loric
 - Converted all logic using the term "Fabled" in the backend to "NPC"
 - Moved Fabled & Loric into the main nightsheet.json
-- Made characters automatically send to players when they are distributed, unless there is a Gardener in play
+- Made characters automatically send to players when they are distributed, unless there is a Gardener or Tor in play
+- Added a "Mock Assignments" feature that can be enabled from the help tab, allowing STs to preview their selected tokens on the grimoire, if they find that helps them verify the setup
 - Added Minion & Demon info icons locally due to changes in the icon repository
 - Made it so a Djinn automatically enters play if a script is loaded with jinxes on it
 - Made it so a Bootlegger automatically enters play if a script is loaded with a Bootlegger rule or homebrew characters on it

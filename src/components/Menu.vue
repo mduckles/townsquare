@@ -132,11 +132,11 @@
               <em><font-awesome-icon icon="copy" /></em>
             </li>
             <li
-              v-if="!session.isSpectator && isGardenerActive"
+              v-if="!session.isSpectator && showSendCharacters"
               @click="distributeRoles"
             >
               Send Characters
-              <em><font-awesome-icon icon="theater-masks" /></em>
+              <em><font-awesome-icon icon="seedling" /></em>
             </li>
             <li
               v-if="session.voteHistory.length || !session.isSpectator"
@@ -234,10 +234,22 @@
             Game State JSON
             <em><font-awesome-icon icon="file-code" /></em>
           </li>
+          <li @click="toggleMockAssignments">
+            Mock Assignments
+            <em
+              ><font-awesome-icon
+                :icon="[
+                  'fas',
+                  grimoire.isMockAssignmentsAllowed ? 'check-square' : 'square',
+                ]"
+            /></em>
+          </li>
           <li>
-            <a href="https://discord.gg/botc" target="_blank">
-              Join Unofficial Discord
-            </a>
+            <small>
+              <a href="https://discord.gg/botc" target="_blank">
+                Join Unofficial Discord
+              </a>
+            </small>
             <em>
               <a href="https://discord.gg/botc" target="_blank">
                 <font-awesome-icon :icon="['fab', 'discord']" />
@@ -271,8 +283,11 @@ import { mapMutations, mapState } from "vuex";
 
 export default {
   computed: {
-    isGardenerActive: function () {
-      return this.npcs.some((npc) => npc.id === "gardener");
+    showSendCharacters: function () {
+      return (
+        this.npcs.some((npc) => npc.id === "gardener") &&
+        !this.npcs.some((npc) => npc.id === "tor")
+      );
     },
     ...mapState(["grimoire", "session", "edition"]),
     ...mapState("players", ["players", "npcs"]),
@@ -430,6 +445,7 @@ export default {
       "toggleMuted",
       "toggleNightOrder",
       "toggleStatic",
+      "toggleMockAssignments",
       "setZoom",
       "toggleModal",
     ]),

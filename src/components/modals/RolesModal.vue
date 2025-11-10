@@ -37,14 +37,31 @@
       <div class="button-group">
         <div
           class="button"
+          v-if="isGardenerOrTorActive || grimoire.isMockAssignmentsAllowed"
           @click="assignRoles"
           :class="{
             disabled: selectedRoles !== nonTravellers || !selectedRoles,
           }"
         >
+          <font-awesome-icon
+            :icon="isGardenerOrTorActive ? 'theater-masks' : 'search'"
+          />
+          {{
+            isGardenerOrTorActive
+              ? "Assign " + selectedRoles + " characters randomly"
+              : "Mock assignment"
+          }}
+        </div>
+        <div
+          class="button"
+          v-if="!isGardenerOrTorActive"
+          @click="assignAndSendRoles"
+          :class="{
+            disabled: selectedRoles !== nonTravellers || !selectedRoles,
+          }"
+        >
           <font-awesome-icon icon="people-arrows" />
-          {{ isGardenerActive ? "Assign" : "Pass out" }}
-          {{ selectedRoles }} characters randomly
+          Pass out {{ selectedRoles }} characters randomly
         </div>
         <div class="button" @click="selectRandomRoles">
           <font-awesome-icon icon="random" />
@@ -93,10 +110,10 @@ export default {
         roles.some((role) => role.selected && role.setup),
       );
     },
-    isGardenerActive: function () {
-      return this.npcs.some((npc) => npc.id === "gardener");
+    isGardenerOrTorActive: function () {
+      return this.npcs.some((npc) => npc.id === "gardener" || npc.id === "tor");
     },
-    ...mapState(["roles", "modals"]),
+    ...mapState(["grimoire", "roles", "modals"]),
     ...mapState("players", ["players", "npcs"]),
     ...mapGetters({ nonTravellers: "players/nonTravellers" }),
   },
@@ -128,13 +145,6 @@ export default {
     },
     assignRoles() {
       if (this.selectedRoles === this.nonTravellers && this.selectedRoles) {
-        if (!this.isGardenerActive) {
-          const popup = this.players.some((player) => !player.connected)
-            ? "WARNING: Some players have not yet taken their seats. Are you sure you want to assign and distribute characters?"
-            : "Do you want to assign and distribute characters to all players?";
-          if (!confirm(popup)) return;
-        }
-
         // generate list of selected roles and randomize it
         const roles = Object.values(this.roleSelection)
           .map((roles) =>
@@ -158,16 +168,21 @@ export default {
           }
         });
         this.$store.commit("toggleModal", "roles");
-
-        if (this.isGardenerActive) return;
-        this.$store.commit("session/distributeRoles", true);
-        setTimeout(
-          (() => {
-            this.$store.commit("session/distributeRoles", false);
-          }).bind(this),
-          2000,
-        );
       }
+    },
+    assignAndSendRoles() {
+      const popup = this.players.some((player) => !player.connected)
+        ? "WARNING: Some players have not yet taken their seats. Are you sure you want to assign and distribute characters?"
+        : "Do you want to assign and distribute characters to all players?";
+      if (!confirm(popup)) return;
+      this.assignRoles();
+      this.$store.commit("session/distributeRoles", true);
+      setTimeout(
+        (() => {
+          this.$store.commit("session/distributeRoles", false);
+        }).bind(this),
+        2000,
+      );
     },
     ...mapMutations(["toggleModal"]),
   },

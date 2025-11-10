@@ -14,6 +14,9 @@ module.exports = (store) => {
   if (localStorage.getItem("static")) {
     store.commit("toggleStatic", true);
   }
+  if (localStorage.getItem("mockAssignments")) {
+    store.commit("toggleMockAssignments", true);
+  }
   if (localStorage.getItem("imageOptIn")) {
     store.commit("toggleImageOptIn", true);
   }
@@ -105,6 +108,13 @@ module.exports = (store) => {
           localStorage.setItem("static", 1);
         } else {
           localStorage.removeItem("static");
+        }
+        break;
+      case "toggleMockAssignments":
+        if (state.grimoire.isMockAssignmentsAllowed) {
+          localStorage.setItem("mockAssignments", 1);
+        } else {
+          localStorage.removeItem("mockAssignments");
         }
         break;
       case "toggleImageOptIn":
