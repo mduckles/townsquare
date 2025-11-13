@@ -138,7 +138,6 @@ export default new Vuex.Store({
     modals: {
       edition: false,
       fabled: false,
-      loric: false,
       gameState: false,
       messages: false,
       nightOrder: false,

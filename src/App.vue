@@ -30,7 +30,6 @@
     <Menu ref="menu"></Menu>
     <EditionModal />
     <FabledModal />
-    <LoricModal />
     <RolesModal />
     <ReferenceModal />
     <NightOrderModal />
@@ -55,7 +54,6 @@ import Vote from "./components/Vote";
 import Gradients from "./components/Gradients";
 import NightOrderModal from "./components/modals/NightOrderModal";
 import FabledModal from "@/components/modals/FabledModal";
-import LoricModal from "@/components/modals/LoricModal";
 import VoteHistoryModal from "@/components/modals/VoteHistoryModal";
 import GameStateModal from "@/components/modals/GameStateModal";
 
@@ -64,7 +62,6 @@ export default {
     GameStateModal,
     VoteHistoryModal,
     FabledModal,
-    LoricModal,
     NightOrderModal,
     Vote,
     ReferenceModal,

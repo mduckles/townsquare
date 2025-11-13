@@ -83,12 +83,6 @@ export default {
         return role.image;
       }
 
-      // TEMP solution until loric tokens are created
-      // bigwig and tor are taken from game-icons.net
-      if (role.team === 'loric') {
-        return require('../assets/loric/' +  role.id + ".webp")
-      }
-
       return require('../assets/icons/' +
         (this.alignmentIndex > 0 ? 'Alternate/' : '') +
         (role.imageAlt || role.id) +
