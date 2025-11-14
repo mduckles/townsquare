@@ -2,6 +2,9 @@
 
 ### Version 2.21.1
 - Fixed custom reminders
+- Changed custom reminders to use the default fabled icon instead
+- Fixed night order modal not displaying with NPCs in play
+- Fixed overlapping keys in edition modal
 
 ### Version 2.21.0
 - Added the Loric character type, including the Big Wig and Tor

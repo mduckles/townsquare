@@ -61,7 +61,7 @@
         </li>
         <li
           v-for="(script, index) in customs.standard"
-          :key="index"
+          :key="index + customs.teensyville.length"
           @click="parseRoles(script)"
         >
           {{ script[0].name + " by " + script[0].author }}

@@ -209,7 +209,10 @@ export default {
       });
       this.npcs
         .filter(
-          (npc) => npc.firstNight || this.edition.firstNight.includes(npc.id),
+          (npc) =>
+            npc.firstNight ||
+            (this.edition.firstNight &&
+              this.edition.firstNight.includes(npc.id)),
         )
         .forEach((npc) => {
           const newFirstNight = this.edition.firstNight
@@ -275,7 +278,10 @@ export default {
       });
       this.npcs
         .filter(
-          (npc) => npc.otherNight || this.edition.otherNight.includes(npc.id),
+          (npc) =>
+            npc.otherNight ||
+            (this.edition.otherNight &&
+              this.edition.otherNight.includes(npc.id)),
         )
         .forEach((npc) => {
           const newOtherNight = this.edition.otherNight

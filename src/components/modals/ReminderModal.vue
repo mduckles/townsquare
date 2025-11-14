@@ -10,7 +10,6 @@
         @click="addReminder(reminder)"
       >
         <span
-          v-if="reminder.role !== 'custom'"
           class="icon"
           :style="{
             backgroundImage: `url(${
@@ -131,7 +130,7 @@ export default {
 
       reminders.push({ role: "good", name: "Good" });
       reminders.push({ role: "evil", name: "Evil" });
-      reminders.push({ role: "custom", name: "Custom Note" });
+      reminders.push({ role: "fabled", name: "Custom Note" });
       return reminders;
     },
     isDisplayed() {
@@ -153,10 +152,10 @@ export default {
     addReminder(reminder) {
       const player = this.$store.state.players.players[this.playerIndex];
       let value;
-      if (reminder.role === "custom") {
+      if (reminder.role === "fabled") {
         const name = prompt("Add a custom reminder note");
         if (!name) return;
-        value = [...player.reminders, { role: "custom", name }];
+        value = [...player.reminders, { role: "fabled", name }];
       } else {
         value = [...player.reminders, reminder];
       }
