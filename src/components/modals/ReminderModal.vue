@@ -130,7 +130,7 @@ export default {
 
       reminders.push({ role: "good", name: "Good" });
       reminders.push({ role: "evil", name: "Evil" });
-      reminders.push({ role: "traveller", name: "Custom Note" });
+      reminders.push({ role: "custom", name: "Custom Note" });
       return reminders;
     },
     isDisplayed() {
@@ -152,10 +152,10 @@ export default {
     addReminder(reminder) {
       const player = this.$store.state.players.players[this.playerIndex];
       let value;
-      if (reminder.role === "traveller") {
+      if (reminder.role === "custom") {
         const name = prompt("Add a custom reminder note");
         if (!name) return;
-        value = [...player.reminders, { role: "traveller", name }];
+        value = [...player.reminders, { role: "custom", name }];
       } else {
         value = [...player.reminders, reminder];
       }
