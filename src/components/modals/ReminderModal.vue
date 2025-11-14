@@ -10,6 +10,7 @@
         @click="addReminder(reminder)"
       >
         <span
+          v-if="reminder.role !== 'custom'"
           class="icon"
           :style="{
             backgroundImage: `url(${
