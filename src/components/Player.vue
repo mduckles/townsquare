@@ -260,6 +260,7 @@
       >
         <span
           class="icon"
+          v-if="reminder.role !== 'custom'"
           :style="{
             backgroundImage: `url(${
               reminder.image && grimoire.isImageOptIn
