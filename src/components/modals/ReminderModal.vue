@@ -152,10 +152,10 @@ export default {
     addReminder(reminder) {
       const player = this.$store.state.players.players[this.playerIndex];
       let value;
-      if (reminder.role === "custom") {
+      if (reminder.role === "traveller") {
         const name = prompt("Add a custom reminder note");
         if (!name) return;
-        value = [...player.reminders, { role: "custom", name }];
+        value = [...player.reminders, { role: "traveller", name }];
       } else {
         value = [...player.reminders, reminder];
       }

@@ -1,5 +1,8 @@
 # Release Notes
 
+### Version 2.21.1
+- Fixed custom reminders
+
 ### Version 2.21.0
 - Added the Loric character type, including the Big Wig and Tor
 - Changed the character type of Bootlegger, Gardener and Storm Catcher to Loric
